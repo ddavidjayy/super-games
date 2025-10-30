@@ -187,4 +187,58 @@
     <div class="games-list">
       <h2>Games</h2>
       <div class="games-grid">
-        
+        <div class="game-card" onclick="window.location.href='#'">
+          <img src="https://via.placeholder.com/150x150.png?text=Survival+Race" alt="Survival Race">
+          <div class="game-card-title">🎮 Survival Race</div>
+        </div>
+        <div class="game-card" onclick="window.location.href='#'">
+          <img src="https://via.placeholder.com/150x150.png?text=Zombie+Escape" alt="Zombie Escape">
+          <div class="game-card-title">🧟 Zombie Escape</div>
+        </div>
+        <div class="game-card" onclick="window.location.href='#'">
+          <img src="https://via.placeholder.com/150x150.png?text=Sky+Jumper" alt="Sky Jumper">
+          <div class="game-card-title">☁️ Sky Jumper</div>
+        </div>
+        <div class="game-card" onclick="window.location.href='#'">
+          <img src="https://via.placeholder.com/150x150.png?text=Alien+Blitz" alt="Alien Blitz">
+          <div class="game-card-title">👽 Alien Blitz</div>
+        </div>
+        <div class="game-card" onclick="window.location.href='#'">
+          <img src="https://via.placeholder.com/150x150.png?text=Turbo+Drift" alt="Turbo Drift">
+          <div class="game-card-title">🚗 Turbo Drift</div>
+        </div>
+        <div class="game-card" onclick="window.location.href='#'">
+          <img src="https://via.placeholder.com/150x150.png?text=Ninja+Dash" alt="Ninja Dash">
+          <div class="game-card-title">🥷 Ninja Dash</div>
+        </div>
+        <div class="game-card" onclick="window.location.href='#'">
+          <img src="https://via.placeholder.com/150x150.png?text=Space+Runner" alt="Space Runner">
+          <div class="game-card-title">🚀 Space Runner</div>
+        </div>
+        <div class="game-card" onclick="window.location.href='#'">
+          <img src="https://via.placeholder.com/150x150.png?text=Monster+Hunt" alt="Monster Hunt">
+          <div class="game-card-title">🐉 Monster Hunt</div>
+        </div>
+        <div class="game-card" onclick="window.location.href='#'">
+          <img src="https://via.placeholder.com/150x150.png?text=Pixel+Racer" alt="Pixel Racer">
+          <div class="game-card-title">🏁 Pixel Racer</div>
+        </div>
+        <div class="game-card" onclick="window.location.href='#'">
+          <img src="https://via.placeholder.com/150x150.png?text=Cyber+Sprint" alt="Cyber Sprint">
+          <div class="game-card-title">💻 Cyber Sprint</div>
+        </div>
+        <div class="game-card" onclick="window.location.href='#'">
+          <img src="https://via.placeholder.com/150x150.png?text=Lava+Leap" alt="Lava Leap">
+          <div class="game-card-title">🌋 Lava Leap</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const searchPopup = document.getElementById('searchPopup');
+
+    searchInput.addEventListener('input', () => {
+      const value = searchInput.value.toLowerCase();
+      if (value.includes('survival race')) {
