@@ -3,111 +3,146 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Survival Race - Unblocked Games</title>
+  <title>Survival Race | Unblocked Games</title>
   <style>
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
-      background-color: #121212;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0f0f0f;
       color: #fff;
     }
 
     header {
-      background-color: #1f1f1f;
-      padding: 1rem 2rem;
+      background-color: #1a1a1a;
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 16px 32px;
+      border-bottom: 1px solid #333;
     }
 
-    .search-bar input {
-      padding: 0.5rem;
+    .logo {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .search-container {
+      flex-grow: 1;
+      margin: 0 20px;
+    }
+
+    .search-container input {
+      width: 100%;
+      max-width: 300px;
+      padding: 8px 12px;
       border-radius: 4px;
       border: none;
-      width: 200px;
+      background-color: #2a2a2a;
+      color: #fff;
     }
 
-    .games-button {
+    .games-btn {
       background-color: #e50914;
-      color: white;
+      color: #fff;
       border: none;
-      padding: 0.5rem 1rem;
+      padding: 8px 16px;
       border-radius: 4px;
       cursor: pointer;
+      font-weight: bold;
     }
 
-    .main-content {
-      padding: 2rem;
+    .main {
+      padding: 40px 32px;
     }
 
-    .featured-tags {
+    .tags {
       color: #e50914;
       font-weight: bold;
-      margin-bottom: 0.5rem;
+      margin-bottom: 8px;
     }
 
-    .game-title {
-      font-size: 2rem;
-      margin: 0.5rem 0;
+    .title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 12px;
     }
 
-    .game-description {
-      margin-bottom: 1rem;
+    .description {
+      font-size: 1rem;
+      color: #ccc;
+      margin-bottom: 20px;
+      max-width: 600px;
     }
 
-    .play-button {
+    .play-section {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 40px;
+    }
+
+    .play-btn {
       background-color: #e50914;
-      color: white;
+      color: #fff;
       border: none;
-      padding: 0.75rem 1.5rem;
+      padding: 12px 24px;
       border-radius: 4px;
       font-size: 1rem;
       cursor: pointer;
+      font-weight: bold;
     }
 
-    .player-count {
-      margin-left: 1rem;
+    .players {
       color: #aaa;
+      font-size: 0.9rem;
     }
 
-    .game-list {
-      margin-top: 3rem;
+    .games-list {
+      border-top: 1px solid #333;
+      padding-top: 24px;
     }
 
-    .game-list h2 {
-      margin-bottom: 1rem;
+    .games-list h2 {
+      font-size: 1.2rem;
+      margin-bottom: 16px;
     }
 
     .game-item {
-      background-color: #1f1f1f;
-      padding: 1rem;
+      background-color: #1a1a1a;
+      padding: 16px;
       border-radius: 4px;
-      margin-bottom: 1rem;
+      font-weight: bold;
+      color: #fff;
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="search-bar">
+    <div class="logo">Unblocked Games</div>
+    <div class="search-container">
       <input type="text" placeholder="Search games..." />
     </div>
-    <button class="games-button">Games</button>
+    <button class="games-btn">Games</button>
   </header>
 
-  <div class="main-content">
-    <div class="featured-tags">★ Featured Game &nbsp; | &nbsp; Action</div>
-    <div class="game-title">Survival Race</div>
-    <div class="game-description">
+  <div class="main">
+    <div class="tags">★ Featured Game &nbsp; | &nbsp; Action</div>
+    <div class="title">Survival Race</div>
+    <div class="description">
       Race through obstacles and survive as long as you can! Dodge hazards and collect coins in this fast-paced action game.
     </div>
-    <button class="play-button">Play Now</button>
-    <span class="player-count">58,247 players</span>
+    <div class="play-section">
+      <button class="play-btn">Play Now</button>
+      <div class="players">58,247 players</div>
+    </div>
 
-    <div class="game-list">
+    <div class="games-list">
       <h2>Games</h2>
       <div class="game-item">🎮 Survival Race - 1 game available</div>
     </div>
   </div>
 </body>
 </html>
+
 
