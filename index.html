@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Survival Race | Unblocked Games</title>
+  <title>Survival Race | SuperGames</title>
   <style>
     body {
       margin: 0;
@@ -28,6 +28,7 @@
     }
 
     .search-container {
+      position: relative;
       flex-grow: 1;
       margin: 0 20px;
     }
@@ -40,6 +41,25 @@
       border: none;
       background-color: #2a2a2a;
       color: #fff;
+    }
+
+    .search-popup {
+      position: absolute;
+      top: 40px;
+      left: 0;
+      background-color: #1f1f1f;
+      border: 1px solid #333;
+      border-radius: 4px;
+      padding: 12px;
+      display: none;
+      width: 300px;
+      z-index: 10;
+    }
+
+    .search-popup img {
+      width: 100%;
+      border-radius: 4px;
+      margin-top: 8px;
     }
 
     .games-btn {
@@ -76,9 +96,6 @@
     }
 
     .play-section {
-      display: flex;
-      align-items: center;
-      gap: 16px;
       margin-bottom: 40px;
     }
 
@@ -91,11 +108,6 @@
       font-size: 1rem;
       cursor: pointer;
       font-weight: bold;
-    }
-
-    .players {
-      color: #aaa;
-      font-size: 0.9rem;
     }
 
     .games-list {
@@ -114,14 +126,24 @@
       border-radius: 4px;
       font-weight: bold;
       color: #fff;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .game-item:hover {
+      background-color: #2a2a2a;
     }
   </style>
 </head>
 <body>
   <header>
-    <div class="logo">Unblocked Games</div>
+    <div class="logo">SuperGames</div>
     <div class="search-container">
-      <input type="text" placeholder="Search games..." />
+      <input type="text" id="searchInput" placeholder="Search games..." />
+      <div class="search-popup" id="searchPopup">
+        <div><strong>Survival Race</strong></div>
+        <img src="https://via.placeholder.com/300x150.png?text=Survival+Race" alt="Survival Race" />
+      </div>
     </div>
     <button class="games-btn">Games</button>
   </header>
@@ -134,15 +156,26 @@
     </div>
     <div class="play-section">
       <button class="play-btn">Play Now</button>
-      <div class="players">58,247 players</div>
     </div>
 
     <div class="games-list">
       <h2>Games</h2>
-      <div class="game-item">🎮 Survival Race - 1 game available</div>
+      <div class="game-item" onclick="window.location.href='#'">🎮 Survival Race - 1 game available</div>
     </div>
   </div>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const searchPopup = document.getElementById('searchPopup');
+
+    searchInput.addEventListener('input', () => {
+      const value = searchInput.value.toLowerCase();
+      if (value.includes('survival race')) {
+        searchPopup.style.display = 'block';
+      } else {
+        searchPopup.style.display = 'none';
+      }
+    });
+  </script>
 </body>
 </html>
-
-
