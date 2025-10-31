@@ -42,29 +42,6 @@
       text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
     }
 
-    .search-container {
-      flex-grow: 1;
-      max-width: 400px;
-    }
-
-    .search-container input {
-      width: 100%;
-      padding: 14px 18px;
-      border-radius: 30px;
-      border: none;
-      background-color: #2a2a2a;
-      color: #fff;
-      font-size: 1rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
-      transition: 0.3s ease;
-    }
-
-    .search-container input:focus {
-      outline: none;
-      background-color: #333;
-      box-shadow: 0 0 0 3px #e50914;
-    }
-
     .games-btn {
       background: linear-gradient(135deg, #ff416c, #ff4b2b);
       color: #fff;
@@ -161,9 +138,6 @@
 <body>
   <header>
     <div class="logo">SuperGames</div>
-    <div class="search-container">
-      <input type="text" id="searchInput" placeholder="Search games..." />
-    </div>
     <a href="games.html">
       <button class="games-btn">All Games</button>
     </a>
@@ -173,15 +147,15 @@
     <div class="tags">★ Most Popular Games</div>
     <div class="popular-wrapper">
       <div class="popular-grid">
-        <div class="game-card" data-title="Survival Race" onclick="window.location.href='survivalrace.html'">
+        <div class="game-card" onclick="window.location.href='survivalrace.html'">
           <img src="https://lh3.googleusercontent.com/sitesv/AAzXCkemNf0BN2gkRw7eGlxVQXcxIK2XQ4FxXLv2LCcopNfQhM8Zt6LbxIQBdoVHqslBc_I6n4bMAnc_mNt5iko1cB9EJ7atwFMR7D2OYeSNq4GaV93VN2AmxBCdCt9c4WzoUbc0Htm_jNEY1glM6x_6MksPdptUWmHwD6RHfyMZlDNio0GLKDoTwo4hp7uVQvMs8Ik3v9O-5R9h8YS55CYuWZEt6nk4Jvbc2IsB=w1280" alt="Survival Race">
           <div class="game-card-title">Survival Race</div>
         </div>
-        <div class="game-card" data-title="Space Blaster" onclick="window.location.href='spaceblaster.html'">
+        <div class="game-card" onclick="window.location.href='spaceblaster.html'">
           <img src="https://via.placeholder.com/600x300.png?text=Space+Blaster" alt="Space Blaster">
           <div class="game-card-title">Space Blaster</div>
         </div>
-        <div class="game-card" data-title="Sky Jumper" onclick="window.location.href='skyjumper.html'">
+        <div class="game-card" onclick="window.location.href='skyjumper.html'">
           <img src="https://via.placeholder.com/600x300.png?text=Sky+Jumper" alt="Sky Jumper">
           <div class="game-card-title">Sky Jumper</div>
         </div>
