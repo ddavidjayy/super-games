@@ -90,38 +90,23 @@
     .tags {
       color: #e50914;
       font-weight: bold;
-      margin-bottom: 8px;
+      margin-bottom: 16px;
+      text-align: center;
+      font-size: 1.4rem;
     }
 
-    .title {
-      font-size: 2.5rem;
-      font-weight: bold;
-      margin-bottom: 12px;
-    }
-
-    .description {
-      font-size: 1rem;
-      color: #ccc;
-      margin-bottom: 20px;
-      max-width: 600px;
+    .popular-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 40px;
     }
 
     .popular-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
-      margin-bottom: 40px;
-    }
-
-    .play-btn {
-      background-color: #e50914;
-      color: #fff;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 4px;
-      font-size: 1rem;
-      cursor: pointer;
-      font-weight: bold;
+      grid-template-columns: repeat(3, minmax(300px, 1fr));
+      gap: 32px;
+      max-width: 1200px;
+      width: 100%;
     }
 
     .games-list {
@@ -130,8 +115,9 @@
     }
 
     .games-list h2 {
-      font-size: 1.2rem;
+      font-size: 1.6rem;
       margin-bottom: 16px;
+      text-align: center;
     }
 
     .games-grid {
@@ -168,7 +154,7 @@
     .game-card-title {
       font-weight: bold;
       color: #fff;
-      font-size: 1rem;
+      font-size: 1.2rem;
     }
   </style>
 </head>
@@ -185,17 +171,19 @@
 
   <div class="main">
     <div class="tags">★ Most Popular Games</div>
-    <div class="popular-grid">
-      <div class="game-card" data-title="Survival Race" onclick="window.location.href='survivalrace.html'">
-        <img src="https://lh3.googleusercontent.com/sitesv/AAzXCkemNf0BN2gkRw7eGlxVQXcxIK2XQ4FxXLv2LCcopNfQhM8Zt6LbxIQBdoVHqslBc_I6n4bMAnc_mNt5iko1cB9EJ7atwFMR7D2OYeSNq4GaV93VN2AmxBCdCt9c4WzoUbc0Htm_jNEY1glM6x_6MksPdptUWmHwD6RHfyMZlDNio0GLKDoTwo4hp7uVQvMs8Ik3v9O-5R9h8YS55CYuWZEt6nk4Jvbc2IsB=w1280" alt="Survival Race">
-        <div class="game-card-title">Survival Race</div>
-      </div>
-      <div class="game-card" data-title="Space Blaster" onclick="window.location.href='spaceblaster.html'">
-        <img src="https://via.placeholder.com/600x300.png?text=Space+Blaster" alt="Space Blaster">
-        <div class="game-card-title">Space Blaster</div>
-      </div>
-      <div class="game-card" data-title="Sky Jumper" onclick="window.location.href='skyjumper.html'">
-        <img src="https://via.placeholder.com/600x300.png?text=Sky+Jumper" alt="Sky Jumper">
-        <div class="game-card-title">Sky Jumper</div>
-      </div>
+    <div class="popular-wrapper">
+      <div class="popular-grid">
+        <div class="game-card" data-title="Survival Race" onclick="window.location.href='survivalrace.html'">
+          <img src="https://lh3.googleusercontent.com/sitesv/AAzXCkemNf0BN2gkRw7eGlxVQXcxIK2XQ4FxXLv2LCcopNfQhM8Zt6LbxIQBdoVHqslBc_I6n4bMAnc_mNt5iko1cB9EJ7atwFMR7D2OYeSNq4GaV93VN2AmxBCdCt9c4WzoUbc0Htm_jNEY1glM6x_6MksPdptUWmHwD6RHfyMZlDNio0GLKDoTwo4hp7uVQvMs8Ik3v9O-5R9h8YS55CYuWZEt6nk4Jvbc2IsB=w1280" alt="Survival Race">
+          <div class="game-card-title">Survival Race</div>
         </div>
+        <div class="game-card" data-title="Space Blaster" onclick="window.location.href='spaceblaster.html'">
+          <img src="https://via.placeholder.com/600x300.png?text=Space+Blaster" alt="Space Blaster">
+          <div class="game-card-title">Space Blaster</div>
+        </div>
+        <div class="game-card" data-title="Sky Jumper" onclick="window.location.href='skyjumper.html'">
+          <img src="https://via.placeholder.com/600x300.png?text=Sky+Jumper" alt="Sky Jumper">
+          <div class="game-card-title">Sky Jumper</div>
+        </div>
+      </div>
+    </div>
