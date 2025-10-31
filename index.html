@@ -15,58 +15,40 @@
     header {
       background-color: #1a1a1a;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
       padding: 16px 32px;
       border-bottom: 1px solid #333;
+      gap: 32px;
+      flex-wrap: wrap;
     }
 
     .logo {
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       font-weight: bold;
       color: #fff;
     }
 
     .search-container {
-      position: relative;
       flex-grow: 1;
-      margin: 0 20px;
+      max-width: 400px;
     }
 
     .search-container input {
       width: 100%;
-      max-width: 300px;
-      padding: 8px 12px;
+      padding: 10px 14px;
       border-radius: 4px;
       border: none;
       background-color: #2a2a2a;
       color: #fff;
-    }
-
-    .search-popup {
-      position: absolute;
-      top: 40px;
-      left: 0;
-      background-color: #1f1f1f;
-      border: 1px solid #333;
-      border-radius: 4px;
-      padding: 12px;
-      display: none;
-      width: 300px;
-      z-index: 10;
-    }
-
-    .search-popup img {
-      width: 100%;
-      border-radius: 4px;
-      margin-top: 8px;
+      font-size: 1rem;
     }
 
     .games-btn {
       background-color: #e50914;
       color: #fff;
       border: none;
-      padding: 8px 16px;
+      padding: 10px 20px;
       border-radius: 4px;
       cursor: pointer;
       font-weight: bold;
@@ -164,17 +146,12 @@
     <div class="logo">SuperGames</div>
     <div class="search-container">
       <input type="text" id="searchInput" placeholder="Search games..." />
-      <div class="search-popup" id="searchPopup">
-        <div><strong>Survival Race</strong></div>
-       <img src="https://lh3.googleusercontent.com/sitesv/AAzXCkemNf0BN2gkRw7eGlxVQXcxIK2XQ4FxXLv2LCcopNfQhM8Zt6LbxIQBdoVHqslBc_I6n4bMAnc_mNt5iko1cB9EJ7atwFMR7D2OYeSNq4GaV93VN2AmxBCdCt9c4WzoUbc0Htm_jNEY1glM6x_6MksPdptUWmHwD6RHfyMZlDNio0GLKDoTwo4hp7uVQvMs8Ik3v9O-5R9h8YS55CYuWZEt6nk4Jvbc2IsB=w1280" alt="Survival Race">
-          <div class="game-card-title">Survival Race</div>
-      </div>
     </div>
     <button class="games-btn">Games</button>
   </header>
 
   <div class="main">
-    <div class="tags">★ Most Popular Game &nbsp; | &nbsp; Action</div>
+    <div class="tags">★ Most Popular Game </div>
     <div class="title">Survival Race</div>
     <div class="description">
       Race through obstacles and survive as long as you can! Dodge hazards and collect coins in this fast-paced action game.
@@ -187,10 +164,19 @@
 
     <div class="games-list">
       <h2>Games</h2>
-      <div class="games-grid">
-        <div class="game-card" onclick="window.location.href='survivalrace.html'">
+      <div class="games-grid" id="gamesGrid">
+        <div class="game-card" data-title="Survival Race" onclick="window.location.href='survivalrace.html'">
           <img src="https://lh3.googleusercontent.com/sitesv/AAzXCkemNf0BN2gkRw7eGlxVQXcxIK2XQ4FxXLv2LCcopNfQhM8Zt6LbxIQBdoVHqslBc_I6n4bMAnc_mNt5iko1cB9EJ7atwFMR7D2OYeSNq4GaV93VN2AmxBCdCt9c4WzoUbc0Htm_jNEY1glM6x_6MksPdptUWmHwD6RHfyMZlDNio0GLKDoTwo4hp7uVQvMs8Ik3v9O-5R9h8YS55CYuWZEt6nk4Jvbc2IsB=w1280" alt="Survival Race">
           <div class="game-card-title">Survival Race</div>
+        </div>
+        <!-- Add more game cards below as needed -->
+        <div class="game-card" data-title="Space Blaster" onclick="window.location.href='spaceblaster.html'">
+          <img src="https://via.placeholder.com/300x150.png?text=Space+Blaster" alt="Space Blaster">
+          <div class="game-card-title">Space Blaster</div>
+        </div>
+        <div class="game-card" data-title="Sky Jumper" onclick="window.location.href='skyjumper.html'">
+          <img src="https://via.placeholder.com/300x150.png?text=Sky+Jumper" alt="Sky Jumper">
+          <div class="game-card-title">Sky Jumper</div>
         </div>
       </div>
     </div>
@@ -198,15 +184,16 @@
 
   <script>
     const searchInput = document.getElementById('searchInput');
-    const searchPopup = document.getElementById('searchPopup');
+    const gamesGrid = document.getElementById('gamesGrid');
+    const gameCards = gamesGrid.querySelectorAll('.game-card');
 
     searchInput.addEventListener('input', () => {
-      const value = searchInput.value.toLowerCase();
-      if (value.includes('survival race')) {
-        searchPopup.style.display = 'block';
-      } else {
-        searchPopup.style.display = 'none';
-      }
+      const query = searchInput.value.toLowerCase();
+      gameCards.forEach(card => {
+        const title = card.getAttribute('data-title').toLowerCase();
+        card.style.display = title.includes(query) ? 'flex' : 'none';
+      });
     });
   </script>
 </body>
+</html>
