@@ -25,10 +25,16 @@
       background-size: 1200% 1200%;
       animation: gradientShift 30s ease infinite;
       display: flex;
+      justify-content: center;
       align-items: center;
-      padding: 16px 32px;
+      padding: 24px 32px;
       border-bottom: 1px solid #333;
-      gap: 16px;
+    }
+
+    .header-content {
+      display: flex;
+      align-items: center;
+      gap: 24px;
     }
 
     .logo {
@@ -59,7 +65,7 @@
 
     .game-frame-container {
       width: 100%;
-      height: calc(100vh - 80px); /* Adjust based on header height */
+      height: calc(100vh - 80px);
     }
 
     iframe {
@@ -71,8 +77,10 @@
 </head>
 <body>
   <header>
-    <div class="logo">SuperGames</div>
-    <button class="games-btn" onclick="window.location.href='index.html'">Back to Home</button>
+    <div class="header-content">
+      <div class="logo">SuperGames</div>
+      <button class="games-btn" onclick="window.location.href='index.html'">Back to Home</button>
+    </div>
   </header>
 
   <div class="game-frame-container">
