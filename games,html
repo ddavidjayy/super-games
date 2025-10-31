@@ -1,1 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SuperGames - Games</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #0f0f0f;
+      color: #fff;
+    }
+
+    header {
+      background-color: #1a1a1a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 16px 32px;
+      border-bottom: 1px solid #333;
+      gap: 32px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #fff;
+    }
+
+    .search-container {
+      flex-grow: 1;
+      max-width: 400px;
+    }
+
+    .search-container input {
+      width: 100%;
+      padding: 10px 14px;
+      border-radius: 4px;
+      border: none;
+      background-color: #2a2a2a;
+      color: #fff;
+      font-size: 1rem;
+    }
+
+    .games-btn {
+      background-color: #e50914;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .main {
+      padding: 40px 32px;
+    }
+
+    .tags {
+      color: #e50914;
+      font-weight: bold;
+      margin-bottom: 8px;
+    }
+
+    .title {
+      font-size: 2.5rem;
+      font-weight: bold;
+      margin-bottom: 12px;
+    }
+
+    .description {
+      font-size: 1rem;
+      color: #ccc;
+      margin-bottom: 20px;
+      max-width: 600px;
+    }
+
+    .play-section {
+      margin-bottom: 40px;
+    }
+
+    .play-btn {
+      background-color: #e50914;
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 4px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .games-list {
+      border-top: 1px solid #333;
+      padding-top: 24px;
+    }
+
+    .games-list h2 {
+      font-size: 1.2rem;
+      margin-bottom: 16px;
+    }
+
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 20px;
+      margin-top: 16px;
+    }
+
+    .game-card {
+      background-color: #1a1a1a;
+      border-radius: 8px;
+      overflow: hidden;
+      text-align: center;
+      padding: 12px;
+      transition: background-color 0.3s;
+      aspect-ratio: 1 / 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      cursor: pointer;
+    }
+
+    .game-card:hover {
+      background-color: #2a2a2a;
+    }
+
+    .game-card img {
+      width: 100%;
+      height: auto;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    .game-card-title {
+      font-weight: bold;
+      color: #fff;
+      font-size: 1rem;
+    }
+  </style>
+</head>
+<body>
+<header>
+  <div class="logo">SuperGames</div>
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Search games..." />
+  </div>
+        <a href="index.html">
+  <button class="games-btn" style="margin-left: 12px;">Home</button>
+          </a>
+</header>
+
+    <div class="games-list">
+      <h2>Games</h2>
+      <div class="games-grid" id="gamesGrid">
+        <div class="game-card" data-title="Survival Race" onclick="window.location.href='survivalrace.html'">
+          <img src="https://lh3.googleusercontent.com/sitesv/AAzXCkemNf0BN2gkRw7eGlxVQXcxIK2XQ4FxXLv2LCcopNfQhM8Zt6LbxIQBdoVHqslBc_I6n4bMAnc_mNt5iko1cB9EJ7atwFMR7D2OYeSNq4GaV93VN2AmxBCdCt9c4WzoUbc0Htm_jNEY1glM6x_6MksPdptUWmHwD6RHfyMZlDNio0GLKDoTwo4hp7uVQvMs8Ik3v9O-5R9h8YS55CYuWZEt6nk4Jvbc2IsB=w1280" alt="Survival Race">
+          <div class="game-card-title">Survival Race</div>
+        </div>
+        <!-- Add more game cards below as needed -->
+        <div class="game-card" data-title="Space Blaster" onclick="window.location.href='spaceblaster.html'">
+          <img src="https://via.placeholder.com/300x150.png?text=Space+Blaster" alt="Space Blaster">
+          <div class="game-card-title">Space Blaster</div>
+        </div>
+        <div class="game-card" data-title="Sky Jumper" onclick="window.location.href='skyjumper.html'">
+          <img src="https://via.placeholder.com/300x150.png?text=Sky+Jumper" alt="Sky Jumper">
+          <div class="game-card-title">Sky Jumper</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const gamesGrid = document.getElementById('gamesGrid');
+    const gameCards = gamesGrid.querySelectorAll('.game-card');
+
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase();
+      gameCards.forEach(card => {
+        const title = card.getAttribute('data-title').toLowerCase();
+        card.style.display = title.includes(query) ? 'flex' : 'none';
+      });
+    });
+  </script>
+</body>
+</html>
 
