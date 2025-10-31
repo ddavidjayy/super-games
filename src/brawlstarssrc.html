@@ -1,461 +1,99 @@
-<html lang="en-us"><head></head><body><module>
-<moduleprefs title="Google.com">
-<content type="html"><!--[CDATA[
-
-<!DOCTYPE html-->
-
-
-<meta charset="utf-8">
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<title>Clicker</title>
-<style>
-    html, body {
-        width: 100%;
-        height: 100%;
-        padding: 0px;
-        margin: 0px;
-    }
-    .fullscreen {
-        background: #242424;
-        width: 100%;
-        height: 100%;
-        position: absolute;
-        top: 0px;
-        left: 0px;
-    }
-    #banner-container {
-        position: absolute;
-        bottom: 0px;
-        width: 100%;
-        height: 90px;
-        display: none !important; /* Reklam alanı tamamen kapalı */
-    }
-    #loading-overlay {
-        font-size: 20px;
-        z-index: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
-    #icon {
-        max-width: 300px;
-        border-radius: 10px;
-        margin-bottom: 20px;
-    }
-    #progress-bar {
-        border-radius: 5px;
-        width: 90%;
-        max-width: 250px;
-        height: 20px;
-        background: #181818;
-        padding: 5px;
-    }
-    #progress-bar-fill {
-        border-radius: 3px;
-        width: 0%;
-        height: 100%;
-        background: #9747FF;
-    }
-</style>
-
-
-<canvas id="canvas" class="fullscreen" width="729" height="473" style="cursor: default;"></canvas>
-<div id="banner-container"></div>
-
-
-<script src="https://cdn.jsdelivr.net/gh/ragdoi-archers/zort@main/add/mo.js"></script>
-<script>
-    // Mobil viewport ayarı
-    if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        let meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.head.appendChild(meta);
-    }
-
-    const canvas = document.getElementById('canvas');
-    const loadingOverlay = document.getElementById('loading-overlay');
-    const progressBarFill = document.getElementById('progress-bar-fill');
-    const bannerContainer = document.getElementById('banner-container');
-
-    let unityInstance = null;
-    let progressBarFillingInterval = null;
-    let progressBarCompleteFillingStarted = false;
-
-    function sendMessageToUnity(name, value) {
-        if (unityInstance !== null) {
-            unityInstance.SendMessage('PlaygamaBridge', name, value || '');
-        }
-    }
-
-    function onUnityLoadingProgressChanged(progress) {
-        if (progress >= 1 && progressBarFillingInterval !== null) {
-            clearInterval(progressBarFillingInterval);
-            progressBarFillingInterval = null;
-            return;
-        }
-
-        if (progressBarCompleteFillingStarted) return;
-
-        if (progress >= 0.9) {
-            progressBarCompleteFillingStarted = true;
-            completeProgressBarFilling();
-            return;
-        }
-
-        progressBarFill.style.width = `${progress * 100}%`;
-    }
-
-    function completeProgressBarFilling() {
-        if (progressBarFillingInterval !== null) return;
-
-        let currentPercent = 90;
-        progressBarFill.style.width = `${currentPercent}%`;
-        progressBarFillingInterval = setInterval(() => {
-            currentPercent++;
-            if (currentPercent > 100) currentPercent = 100;
-            progressBarFill.style.width = `${currentPercent}%`;
-            if (currentPercent >= 100) {
-                clearInterval(progressBarFillingInterval);
-                progressBarFillingInterval = null;
-            }
-        }, 100);
-    }
-
-    window.addEventListener('pointerdown', () => {
-        window.focus();
-        canvas.focus();
-    });
-
-    // === YANDEX SDK YERİNE BOŞ MOCK OBJESİ ===
-    window.bridge = {
-        platform: { id: '', language: 'en', payload: '', tld: '' },
-        device: { type: 'desktop' },
-        player: { isAuthorizationSupported: false, isAuthorized: false, id: '', name: '', photos: [] },
-        game: { visibilityState: 'visible' },
-        storage: { defaultType: 'local', isSupported: () => true, isAvailable: () => true },
-        advertisement: { interstitialState: '', isBannerSupported: false, minimumDelayBetweenInterstitial: 0 },
-        social: {},
-        leaderboard: {},
-        payments: {},
-        remoteConfig: { isSupported: false },
-        achievements: {},
-
-        // Boş initialize → hemen resolve
-        initialize: () => Promise.resolve(),
-
-        // Tüm event'ler boş
-        advertisement: { on: () => {} },
-        game: { on: () => {} }
-    };
-
-    // === TÜM BRIDGE FONKSİYONLARI BOŞ DÖNÜYOR ===
-    const mockPromise = (success = true, data = '') => 
-        success ? Promise.resolve(data) : Promise.reject();
-
-    // Platform
-    window.getPlatformId = () => '';
-    window.getPlatformLanguage = () => 'en';
-    window.getPlatformPayload = () => '';
-    window.getPlatformTld = () => '';
-    window.sendMessageToPlatform = () => {};
-    window.getServerTime = () => sendMessageToUnity('OnGetServerTimeCompleted', Date.now().toString());
-
-    // Device
-    window.getDeviceType = () => 'desktop';
-
-    // Player
-    window.getIsPlayerAuthorizationSupported = () => 'false';
-    window.getIsPlayerAuthorized = () => 'false';
-    window.getPlayerId = () => '';
-    window.getPlayerName = () => '';
-    window.getPlayerPhotos = () => '[]';
-    window.authorizePlayer = () => sendMessageToUnity('OnAuthorizeCompleted', 'false');
-
-    // Game
-    window.getVisibilityState = () => 'visible';
-
-    // Storage
-    window.getStorageDefaultType = () => 'local';
-    window.getIsStorageSupported = () => 'true';
-    window.getIsStorageAvailable = () => 'true';
-    window.getStorageData = (key) => sendMessageToUnity('OnGetStorageDataSuccess', `${key}{bridge_data_separator}`);
-    window.setStorageData = (key) => sendMessageToUnity('OnSetStorageDataSuccess', key);
-    window.deleteStorageData = (key) => sendMessageToUnity('OnDeleteStorageDataSuccess', key);
-
-    // Advertisement
-    window.getInterstitialState = () => '';
-    window.getIsBannerSupported = () => 'false';
-    window.getMinimumDelayBetweenInterstitial = () => '0';
-    window.setMinimumDelayBetweenInterstitial = () => {};
-    window.showBanner = () => {};
-    window.hideBanner = () => {};
-    window.showInterstitial = () => {};
-    window.showRewarded = () => {};
-    window.checkAdBlock = () => sendMessageToUnity('OnCheckAdBlockCompleted', 'false');
-
-    // Social
-    window.getIsShareSupported = () => 'false';
-    window.getIsInviteFriendsSupported = () => 'false';
-    window.getIsJoinCommunitySupported = () => 'false';
-    window.getIsCreatePostSupported = () => 'false';
-    window.getIsAddToHomeScreenSupported = () => 'false';
-    window.getIsAddToFavoritesSupported = () => 'false';
-    window.getIsRateSupported = () => 'false';
-    window.getIsExternalLinksAllowed = () => 'true';
-    window.share = () => sendMessageToUnity('OnShareCompleted', 'false');
-    window.inviteFriends = () => sendMessageToUnity('OnInviteFriendsCompleted', 'false');
-    window.joinCommunity = () => sendMessageToUnity('OnJoinCommunityCompleted', 'false');
-    window.createPost = () => sendMessageToUnity('OnCreatePostCompleted', 'false');
-    window.addToHomeScreen = () => sendMessageToUnity('OnAddToHomeScreenCompleted', 'false');
-    window.addToFavorites = () => sendMessageToUnity('OnAddToFavoritesCompleted', 'false');
-    window.rate = () => sendMessageToUnity('OnRateCompleted', 'false');
-
-    // Leaderboard
-    window.getIsLeaderboardSupported = () => 'false';
-    window.getIsLeaderboardNativePopupSupported = () => 'false';
-    window.getIsLeaderboardSetScoreSupported = () => 'false';
-    window.getIsLeaderboardGetScoreSupported = () => 'false';
-    window.getIsLeaderboardGetEntriesSupported = () => 'false';
-    window.leaderboardSetScore = () => sendMessageToUnity('OnLeaderboardSetScoreCompleted', 'false');
-    window.leaderboardGetScore = () => sendMessageToUnity('OnLeaderboardGetScoreCompleted', '');
-    window.leaderboardGetEntries = () => sendMessageToUnity('OnLeaderboardGetEntriesCompletedSuccess', '[]');
-    window.leaderboardShowNativePopup = () => sendMessageToUnity('OnLeaderboardShowNativePopupCompleted', 'false');
-
-    // Payments
-    window.getIsPaymentsSupported = () => 'false';
-    window.getIsCatalogSupported = () => 'false';
-    window.getIsPurchaseListSupported = () => 'false';
-    window.getIsPurchaseConsumingSupported = () => 'false';
-    window.paymentsPurchase = () => sendMessageToUnity('OnPaymentsPurchaseFailed', '');
-    window.paymentsConsumePurchase = () => sendMessageToUnity('OnPaymentsConsumePurchaseCompleted', 'false');
-    window.paymentsGetCatalog = () => sendMessageToUnity('OnPaymentsGetCatalogCompletedSuccess', '[]');
-    window.paymentsGetPurchases = () => sendMessageToUnity('OnPaymentsGetPurchasesCompletedSuccess', '[]');
-
-    // Remote Config
-    window.getIsRemoteConfigSupported = () => 'false';
-    window.remoteConfigGet = () => sendMessageToUnity('OnRemoteConfigGetFailed', '');
-
-    // Achievements
-    window.getIsAchievementsSupported = () => 'false';
-    window.getIsGetAchievementsListSupported = () => 'false';
-    window.getIsAchievementsNativePopupSupported = () => 'false';
-    window.achievementsUnlock = () => sendMessageToUnity('OnAchievementsUnlockCompleted', 'false');
-    window.achievementsShowNativePopup = () => sendMessageToUnity('OnAchievementsShowNativePopupCompleted', 'false');
-    window.achievementsGetList = () => sendMessageToUnity('OnAchievementsGetListCompletedSuccess', '[]');
-
-    // === UNITY LOADER DOĞRUDAN BAŞLIYOR ===
-    const unityLoader = document.createElement('script');
-    unityLoader.src = 'https://cdn.jsdelivr.net/gh/ragdoi-archers/zort@main/Build/web.loader.js';
-    unityLoader.onload = () => {
-        createUnityInstance(canvas, {
-            dataUrl: 'https://cdn.jsdelivr.net/gh/ragdoi-archers/zort@main/Build/web.data.unityweb',
-            frameworkUrl: 'https://cdn.jsdelivr.net/gh/ragdoi-archers/zort@main/Build/web.framework.js.unityweb',
-            codeUrl: 'https://cdn.jsdelivr.net/gh/ragdoi-archers/zort@main/Build/web.wasm.unityweb',
-            streamingAssetsUrl: 'https://cdn.jsdelivr.net/gh/ragdoi-archers/zort@main/StreamingAssets',
-            companyName: 'DefaultCompany',
-            productName: 'Clicker',
-            productVersion: '0.1',
-        }, onUnityLoadingProgressChanged)
-        .then((instance) => {
-            window.unityInstance = instance;
-            loadingOverlay.remove();
-            canvas.focus();
-        })
-        .catch((error) => {
-            console.error("Unity yüklenemedi:", error);
-            alert("Oyun yüklenemedi. Lütfen sayfayı yenileyin.");
-        });
-    };
-    unityLoader.onerror = () => {
-        console.error("web.loader.js yüklenemedi!");
-    };
-    document.body.appendChild(unityLoader);
-
-    // === SES KONTROLÜ (Howler) ===
-    var sounds = {};
-    var sound;
-    var isSound = 1;
-
-    sound = new Howl({
-        src: ['silent.mp3'],
-        loop: true,
-        volume: 0
-    });
-    sound.play();
-
-    function HowlerSoundOff() {
-        isSound = 0;
-        Howler.volume(0);
-        console.log('Howler Sound Off!');
-    }
-
-    function HowlerSoundOn() {
-        isSound = 1;
-        Howler.volume(1);
-        console.log('Howler Sound On!');
-    }
-
-    function openUrlInNewTab(url) {
-        window.open(url, '_blank');
-    }
-</script>
-
-	<!-- Sticky Bottom Center Ad (728x90) with Smooth Slide-Out and Reappearance -->
-<style>
-  /* Container: Bottom center, fixed, with overflow hidden */
-  #ad-container {
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: min(728px, calc(100% - 20px)); /* 728px, 10px margin on mobile */
-    height: 90px;
-    background: rgba(0, 0, 0, 0.90);
-    display: none;
-    z-index: 99999;
-    border-radius: 0; /* Sharp corners */
-    overflow: hidden;
-    box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.45);
-    box-sizing: border-box;
-    transition: transform 0.5s ease-in-out; /* Smooth slide-in/out animation */
-  }
-
-  /* Slide-out animation */
-  #ad-container.hidden {
-    transform: translate(-50%, 100%); /* Slide down out of view */
-  }
-
-  #ad-iframe {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 745px; /* Updated width */
-    height: 90px; /* Updated height */
-    border: 0;
-    display: block;
-    overflow: hidden;
-    pointer-events: auto;
-    box-sizing: content-box;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
-  
-  #ad-iframe::-webkit-scrollbar {
-    display: none;
-    width: 0;
-    height: 0;
-  }
-
-  /* Close button with arrow */
-  #close-ad {
-    position: absolute;
-    top: 6px;
-    right: 8px;
-    background: #ff4d4d;
-    color: #fff;
-    border: none;
-    padding: 5px 9px;
-    font-size: 13px;
-    border-radius: 4px;
-    cursor: not-allowed;
-    opacity: 0.72;
-    z-index: 100000;
-    display: flex;
-    align-items: center;
-  }
-  #close-ad.enabled {
-    cursor: pointer;
-    opacity: 1;
-  }
-  #close-ad::before {
-    content: '↓'; /* Down arrow for bottom ad */
-    margin-right: 4px;
-  }
-
-  /* Right mask for scrollbar */
-  #ad-right-mask {
-    position: absolute;
-    top: 0;
-    right: 0;
-    width: 12px;
-    height: 100%;
-    pointer-events: none;
-    background: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.9));
-    z-index: 99999;
-  }
-
-  /* Mobile adjustments */
-  @media (max-width: 440px) {
-    #ad-container {
-      width: calc(100% - 12px);
-      left: 50%;
-      transform: translateX(-50%);
-      border-radius: 0; /* Sharp corners on mobile */
-    }
-    #ad-iframe {
-      width: 728px;
-    }
-  }
-</style>
-
-<div id="ad-container" aria-hidden="false" role="dialog" aria-label="Advertisement" style="display: block;">
-  <iframe id="ad-iframe" src="https://script.google.com/macros/s/AKfycbwO0_-Mbrs-AoE1MqbBxyaIzK385M7xGx4jDkq-FDsbR9wNcqft1m3554Np5XINfbRViw/exec" width="768px" height="95px" scrolling="no" frameborder="0" sandbox="allow-scripts allow-popups allow-same-origin"></iframe>
-  <button id="close-ad" class="enabled">Close ↓</button>
-  <div id="ad-right-mask"></div>
+<html><head><base target="_blank"></head><body><div id="container">
+  <iframe id="fr" width="100%" height="100%" frameborder="0" allowfullscreen="" style="display: block;"></iframe>
+  <button class="play-button" type="button" onclick="PlayTo(this)" style="display: none;">CLICK TO PLAY</button>
+  <p id="unblocked-text">G+</p>
+  <button class="fullscreen-button" type="button" onclick="openFullscreen()">FULLSCREEN</button>
 </div>
 
+<style>
+  .play-button { padding: 20px 40px; background: #000; color: #fff; border: 2px solid #4a148c; border-radius: 10px; font: bold 24px Arial; cursor: pointer; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 1001; }
+  .play-button:hover { background: #4a148c; }
+  .fullscreen-button { padding: 10px 15px; background: #000; color: #fff; border: 2px solid #4a148c; border-radius: 5px; font: bold 14px Arial; cursor: pointer; position: fixed; bottom: 20px; right: 20px; z-index: 1002; }
+  .fullscreen-button:hover { background: #4a148c; }
+  body, html { margin: 0; padding: 0; overflow: hidden; height: 100%; }
+</style>
+
 <script>
-  (function () {
-    const showDelay = 2000; // 2 seconds delay before first show
-    const countdownStart = 12; // 12 seconds countdown
-    const reappearDelay = 25000; // 25 seconds before reappearance
-    const adContainer = document.getElementById('ad-container');
-    const closeBtn = document.getElementById('close-ad');
+  const DB_NAME = 'GameCacheDB';
+  const STORE_NAME = 'GameFiles';
+  const CACHE_DURATION = 90 * 24 * 60 * 60 * 1000; // 3 ay
+  const FILE_URL = 'https://cdn.jsdelivr.net/gh/ragdoi-archers/zort@main/1yz.xml';
 
-    function showAd() {
-      // Show ad with smooth slide-in
-      adContainer.style.display = 'block';
-      adContainer.classList.remove('hidden');
-      adContainer.setAttribute('aria-hidden', 'false');
-
-      // Start countdown
-      let timeLeft = countdownStart;
-      closeBtn.textContent = `Close (${timeLeft})`;
-      closeBtn.disabled = true;
-      closeBtn.classList.remove('enabled');
-
-      const t = setInterval(() => {
-        timeLeft--;
-        if (timeLeft > 0) {
-          closeBtn.textContent = `Close (${timeLeft})`;
-        } else {
-          clearInterval(t);
-          closeBtn.disabled = false;
-          closeBtn.classList.add('enabled');
-          closeBtn.textContent = 'Close ↓';
-        }
-      }, 1000);
-    }
-
-    // Initial ad show
-    setTimeout(showAd, showDelay);
-
-    // Close with animation and schedule reappearance
-    closeBtn.addEventListener('click', () => {
-      if (closeBtn.disabled) return;
-      adContainer.classList.add('hidden');
-      adContainer.setAttribute('aria-hidden', 'true');
-      // Schedule reappearance without removing or reloading iframe
-      setTimeout(showAd, reappearDelay);
+  function openDB() {
+    return new Promise((resolve, reject) => {
+      const request = indexedDB.open(DB_NAME, 1);
+      request.onupgradeneeded = (event) => {
+        const db = event.target.result;
+        db.createObjectStore(STORE_NAME, { keyPath: 'url' });
+      };
+      request.onsuccess = (event) => resolve(event.target.result);
+      request.onerror = (event) => reject(event.target.error);
     });
-  })();
-</script>
+  }
 
+  async function saveToCache(url, content) {
+    const db = await openDB();
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction(STORE_NAME, 'readwrite');
+      const store = transaction.objectStore(STORE_NAME);
+      const request = store.put({ url: url, content: content, timestamp: Date.now() });
+      request.onsuccess = () => resolve();
+      request.onerror = () => reject(new Error('Cache error'));
+    });
+  }
 
+  async function getFileFromCache(url) {
+    const db = await openDB();
+    return new Promise((resolve, reject) => {
+      const transaction = db.transaction(STORE_NAME, 'readonly');
+      const store = transaction.objectStore(STORE_NAME);
+      const request = store.get(url);
+      request.onsuccess = async (event) => {
+        const data = event.target.result;
+        if (data && (Date.now() - data.timestamp) < CACHE_DURATION) {
+          resolve(data.content);
+        } else {
+          try {
+            const response = await fetch(url);
+            const text = await response.text();
+            await saveToCache(url, text);
+            resolve(text);
+          } catch (err) {
+            reject(err);
+          }
+        }
+      };
+      request.onerror = () => reject(new Error('DB error'));
+    });
+  }
 
+  function PlayTo(button) {
+    const iframe = document.getElementById("fr");
+    getFileFromCache(FILE_URL).then((text) => {
+      iframe.contentDocument.open();
+      iframe.contentDocument.write(text);
+      iframe.contentDocument.close();
+      iframe.style.display = "block";
+      button.style.display = "none";
+    }).catch((err) => {
+      console.error('Error:', err);
+      alert('Oyun yüklenemedi.');
+    });
+  }
 
-]]&gt;</content>
-</moduleprefs></module><script src="https://cdn.jsdelivr.net/gh/ragdoi-archers/zort@main/Build/web.loader.js"></script><script src="blob:https://940324008-atari-embeds.googleusercontent.com/5887e227-30a3-4ad6-9e77-c5224d4c5201"></script></body></html>
+  function openFullscreen() {
+    getFileFromCache(FILE_URL).then((text) => {
+      const newWindow = window.open("", "_blank");
+      if (newWindow) {
+        newWindow.document.open();
+        newWindow.document.write(text);
+        newWindow.document.close();
+      } else {
+        alert('Tam ekran açılamadı.');
+      }
+    }).catch((err) => {
+      console.error('Error:', err);
+      alert('Tam ekran yüklenemedi.');
+    });
+  }
+</script></body></html>
