@@ -155,36 +155,55 @@
     <button class="fullscreen-btn" onclick="toggleFullscreen()">🖥️ Full Screen</button>
   </div>
 
-  <script>
-    const gameTitle = "Baldi's Basics";
-    const likeBtn = document.getElementById('likeBtn');
-    const likeCount = document.getElementById('likeCount');
+<script>
+  const gameTitle = "Baldi's Basics";
+  const likeBtn = document.getElementById('likeBtn');
+  const likeCount = document.getElementById('likeCount');
 
-    let likes = parseInt(localStorage.getItem(`${gameTitle}_likes`)) || 0;
-    let liked = localStorage.getItem(`${gameTitle}_liked`) === "true" && likes > 0;
+  let likes = parseInt(localStorage.getItem(`${gameTitle}_likes`)) || 0;
+  let liked = localStorage.getItem(`${gameTitle}_liked`) === "true" && likes > 0;
 
-    function updateLikeDisplay() {
-      likeCount.textContent = `Likes: ${likes}`;
-      if (liked) {
-        likeBtn.classList.add('liked');
-        likeBtn.textContent = '💚 Liked';
+  function updateLikeDisplay() {
+    likeCount.textContent = `Likes: ${likes}`;
+    if (liked) {
+      likeBtn.classList.add('liked');
+      likeBtn.textContent = '💚 Liked';
+    } else {
+      likeBtn.classList.remove('liked');
+      likeBtn.textContent = '👍 Like';
+    }
+  }
+
+  function toggleLike() {
+    if (liked) {
+      likes--;
+      liked = false;
+      localStorage.removeItem(`${gameTitle}_liked`);
+      if (likes <= 0) {
+        localStorage.removeItem(`${gameTitle}_likes`);
       } else {
-        likeBtn.classList.remove('liked');
-        likeBtn.textContent = '👍 Like';
+        localStorage.setItem(`${gameTitle}_likes`, likes);
       }
+    } else {
+      likes++;
+      liked = true;
+      localStorage.setItem(`${gameTitle}_liked`, "true");
+      localStorage.setItem(`${gameTitle}_likes`, likes);
     }
 
-    function toggleLike() {
-      if (liked) {
-        likes--;
-        liked = false;
-        localStorage.removeItem(`${gameTitle}_liked`);
-        if (likes <= 0) {
-          localStorage.removeItem(`${gameTitle}_likes`);
-        } else {
-          localStorage.setItem(`${gameTitle}_likes`, likes);
-        }
-      } else {
-        likes++;
-        liked = true;
-        localStorage.setItem(`${gameTitle
+    updateLikeDisplay();
+  }
+
+  function toggleFullscreen() {
+    const iframe = document.querySelector('iframe');
+    if (iframe.requestFullscreen) {
+      iframe.requestFullscreen();
+    } else if (iframe.webkitRequestFullscreen) {
+      iframe.webkitRequestFullscreen();
+    } else if (iframe.msRequestFullscreen) {
+      iframe.msRequestFullscreen();
+    }
+  }
+
+  updateLikeDisplay();
+</script>
