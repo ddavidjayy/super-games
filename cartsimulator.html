@@ -174,7 +174,7 @@
       color: #fff;
       font-size: 1rem;
     }
-  </style>
+   </style>
 </head>
 <body>
   <header>
@@ -195,20 +195,11 @@
     <button class="fullscreen-btn" onclick="toggleFullscreen()">🖥️ Full Screen</button>
   </div>
 
-  <!-- Optional: Game Cards for Search Results -->
-  <div class="games-grid" id="gamesGrid">
-    <div class="game-card" data-title="Cart Simulator" onclick="window.location.href='cartsimulator.html'">
-      <img src="https://tr.rbxcdn.com/180DAY-9a7023ad3a55c382940260723c1409f2/768/432/Image/Webp/noFilter" alt="Cart Simulator">
-      <div class="game-card-title">Cart Simulator</div>
-    </div>
-    <div class="game-card" data-title="Brawl Stars" onclick="window.location.href='brawlstars.html'">
-      <img src="https://staticg.sportskeeda.com/editor/2023/12/8397f-17024614684468-1920.jpg" alt="Brawl Stars">
-      <div class="game-card-title">Brawl Stars</div>
-    </div>
-    <!-- Add more game cards here -->
-  </div>
+  <!-- Dynamic Game Cards -->
+  <div class="games-grid" id="gamesGrid"></div>
 
   <script>
+    // Like button logic
     const gameTitle = "Cart Simulator";
     const likeBtn = document.getElementById('likeBtn');
     const likeCount = document.getElementById('likeCount');
@@ -239,4 +230,73 @@
       }
 
       localStorage.setItem(`${gameTitle}_likes`, likes);
-      localStorage.setItem
+      localStorage.setItem(`${gameTitle}_liked`, liked);
+      updateLikeDisplay();
+    }
+
+    function saveLikedGame(title) {
+      localStorage.setItem(`${title}_liked`, "true");
+    }
+
+    function removeLikedGame(title) {
+      localStorage.removeItem(`${title}_liked`);
+    }
+
+    updateLikeDisplay();
+
+    function toggleFullscreen() {
+      const iframe = document.querySelector('iframe');
+      if (iframe.requestFullscreen) {
+        iframe.requestFullscreen();
+      } else if (iframe.webkitRequestFullscreen) {
+        iframe.webkitRequestFullscreen();
+      } else if (iframe.msRequestFullscreen) {
+        iframe.msRequestFullscreen();
+      }
+    }
+
+    // Game search and render logic
+    const searchInput = document.getElementById('searchInput');
+    const gamesGrid = document.getElementById('gamesGrid');
+
+    const allGames = [
+      {
+        title: "Cart Simulator",
+        image: "https://tr.rbxcdn.com/180DAY-9a7023ad3a55c382940260723c1409f2/768/432/Image/Webp/noFilter",
+        link: "cartsimulator.html"
+      },
+      {
+        title: "Brawl Stars",
+        image: "https://staticg.sportskeeda.com/editor/2023/12/8397f-17024614684468-1920.jpg",
+        link: "brawlstars.html"
+      }
+      // Add more games here
+    ];
+
+    function renderGames(games) {
+      gamesGrid.innerHTML = '';
+      games.forEach(game => {
+        const card = document.createElement('div');
+        card.className = 'game-card';
+        card.setAttribute('data-title', game.title);
+        card.onclick = () => window.location.href = game.link;
+
+        card.innerHTML = `
+          <img src="${game.image}" alt="${game.title}">
+          <div class="game-card-title">${game.title}</div>
+        `;
+        gamesGrid.appendChild(card);
+      });
+    }
+
+    renderGames(allGames);
+
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase();
+      const filtered = allGames.filter(game =>
+        game.title.toLowerCase().includes(query)
+      );
+      renderGames(filtered);
+    });
+  </script>
+</body>
