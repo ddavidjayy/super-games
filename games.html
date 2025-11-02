@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -219,100 +220,47 @@
           <div class="game-card-title">Sonic Revert</div>
   </div>
 
-<script>
-  const allGames = [
-    {
-      title: "Brawl Stars",
-      image: "https://staticg.sportskeeda.com/editor/2023/12/8397f-17024614684468-1920.jpg",
-      link: "brawlstars.html"
-    },
-    {
-      title: "Cart Simulator",
-      image: "https://tr.rbxcdn.com/180DAY-9a7023ad3a55c382940260723c1409f2/768/432/Image/Webp/noFilter",
-      link: "cartsimulator.html"
-    },
-    {
-      title: "Granny",
-      image: "https://upload.wikimedia.org/wikipedia/en/7/7e/Granny_game_cover.jpg",
-      link: "granny.html"
-    },
-    {
-      title: "Sonic Advance",
-      image: "https://upload.wikimedia.org/wikipedia/en/1/1e/Sonic_Advance_Coverart.png",
-      link: "sonicadvance.html"
-    }
-    // Add more games here
-  ];
+  <script>
+    // Search filter
+    const searchInput = document.getElementById('searchInput');
+    const gamesGrid = document.getElementById('gamesGrid');
+    const gameCards = gamesGrid.querySelectorAll('.game-card');
 
-  const searchInput = document.getElementById('searchInput');
-  const gamesGrid = document.getElementById('gamesGrid');
-
-  function renderGames(games) {
-    gamesGrid.innerHTML = '';
-    games.forEach(game => {
-      const likedKey = `${game.title}_liked`;
-      const likesKey = `${game.title}_likes`;
-      const liked = localStorage.getItem(likedKey) === 'true';
-      const likes = parseInt(localStorage.getItem(likesKey)) || 0;
-
-      const card = document.createElement('div');
-      card.className = 'game-card';
-
-      card.innerHTML = `
-        <img src="${game.image}" alt="${game.title}">
-        <div class="game-card-title">${game.title}</div>
-        <div style="margin-top: 10px;">
-          <button class="like-btn ${liked ? 'liked' : ''}" data-title="${game.title}">
-            ${liked ? '💚 Liked' : '👍 Like'}
-          </button>
-          <div class="like-count-box">Likes: ${likes}</div>
-        </div>
-      `;
-
-      card.addEventListener('click', (e) => {
-        if (!e.target.classList.contains('like-btn')) {
-          window.location.href = game.link;
-        }
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase();
+      gameCards.forEach(card => {
+        const title = card.getAttribute('data-title').toLowerCase();
+        card.style.display = title.includes(query) ? 'flex' : 'none';
       });
-
-      const likeBtn = card.querySelector('.like-btn');
-      likeBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const title = e.target.getAttribute('data-title');
-        const likedKey = `${title}_liked`;
-        const likesKey = `${title}_likes`;
-        let liked = localStorage.getItem(likedKey) === 'true';
-        let likes = parseInt(localStorage.getItem(likesKey)) || 0;
-
-        if (liked) {
-          liked = false;
-          likes--;
-          localStorage.removeItem(likedKey);
-        } else {
-          liked = true;
-          likes++;
-          localStorage.setItem(likedKey, 'true');
-        }
-
-        localStorage.setItem(likesKey, likes);
-        renderGames(allGames.filter(game =>
-          game.title.toLowerCase().includes(searchInput.value.toLowerCase())
-        ));
-      });
-
-      gamesGrid.appendChild(card);
     });
-  }
 
-  renderGames(allGames);
+    // Liked Games Section — FINAL FIX
+    const likedSection = document.getElementById('likedGamesSection');
+    const likedList = document.getElementById('likedGamesList');
 
-  searchInput.addEventListener('input', () => {
-    const query = searchInput.value.toLowerCase();
-    const filtered = allGames.filter(game =>
-      game.title.toLowerCase().includes(query)
-    );
-    renderGames(filtered);
-  });
-</script>
+    const likedGames = [];
+
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key.endsWith('_liked') && localStorage.getItem(key) === 'true') {
+        const gameTitle = key.replace('_liked', '');
+        if (!likedGames.includes(gameTitle)) {
+          likedGames.push(gameTitle);
+        }
+      }
+    }
+
+    if (likedGames.length > 0) {
+      likedSection.style.display = 'block';
+      likedGames.forEach(game => {
+        const link = document.createElement('a');
+        const fileName = game.toLowerCase().replace(/\s+/g, '') + '.html';
+        link.href = fileName;
+        link.className = 'liked-game';
+        link.textContent = game;
+        likedList.appendChild(link);
+      });
+    }
+  </script>
 </body>
 </html>
