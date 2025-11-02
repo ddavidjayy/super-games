@@ -234,7 +234,7 @@
     });
   });
 
-  // Liked Games Section — FIXED
+  // Liked Games Section — FINAL FIX
   const likedSection = document.getElementById('likedGamesSection');
   const likedList = document.getElementById('likedGamesList');
   const likedGames = [];
@@ -244,6 +244,8 @@
     if (key.endsWith('_liked') && localStorage.getItem(key) === 'true') {
       const gameTitle = key.replace('_liked', '');
       const likeCount = parseInt(localStorage.getItem(`${gameTitle}_likes`)) || 0;
+
+      // Only show if liked AND has at least 1 like
       if (likeCount > 0 && !likedGames.includes(gameTitle)) {
         likedGames.push(gameTitle);
       }
@@ -260,8 +262,11 @@
       link.textContent = game;
       likedList.appendChild(link);
     });
+  } else {
+    likedSection.style.display = 'none';
   }
 </script>
+
 
 </body>
 </html>
