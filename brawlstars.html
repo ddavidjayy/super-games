@@ -78,12 +78,13 @@
     .controls {
       display: flex;
       justify-content: center;
+      align-items: center;
       gap: 20px;
       margin-top: 20px;
     }
 
-    .like-btn {
-      background: #ff4b2b;
+    .like-btn, .fullscreen-btn {
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
       border: none;
       padding: 12px 24px;
       border-radius: 30px;
@@ -101,31 +102,20 @@
       box-shadow: 0 0 15px #00c853;
     }
 
-    .like-btn:hover {
+    .like-btn:hover, .fullscreen-btn:hover {
       transform: scale(1.05);
     }
 
-    .like-count {
-      font-size: 1.2rem;
-      margin-left: 10px;
-    }
-
-    .fullscreen-btn {
-      background: #1e90ff;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 30px;
-      color: #fff;
-      font-weight: 600;
+    .like-count-box {
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid #fff;
+      border-radius: 20px;
+      padding: 10px 20px;
       font-size: 1.1rem;
-      cursor: pointer;
-      box-shadow: 0 0 10px #1e90ff;
-      transition: all 0.3s ease;
+      font-weight: 600;
+      color: #fff;
       text-shadow: 0 0 5px #fff;
-    }
-
-    .fullscreen-btn:hover {
-      transform: scale(1.05);
+      box-shadow: 0 0 10px #ff4b2b;
     }
   </style>
 </head>
@@ -141,8 +131,8 @@
 
   <div class="controls">
     <button class="like-btn" id="likeBtn" onclick="toggleLike()">👍 Like</button>
+    <div class="like-count-box" id="likeCount">Likes: 0</div>
     <button class="fullscreen-btn" onclick="toggleFullscreen()">🖥️ Full Screeb</button>
-    <span class="like-count" id="likeCount">Likes: 0</span>
   </div>
 
   <script>
