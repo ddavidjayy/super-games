@@ -59,9 +59,9 @@
     }
 
     .game-frame-container {
-      width: 80%;
-      max-width: 1000px;
-      height: 600px;
+      width: 85%;
+      max-width: 1200px;
+      height: 720px;
       margin: 40px auto;
       border-radius: 12px;
       overflow: hidden;
@@ -136,25 +136,28 @@
   </div>
 
   <script>
-    let likes = 0;
     let liked = false;
+    let likes = parseInt(localStorage.getItem('likes')) || 0;
+
+    const likeBtn = document.getElementById('likeBtn');
+    const likeCount = document.getElementById('likeCount');
+
+    function updateLikeDisplay() {
+      likeCount.textContent = `Likes: ${likes}`;
+      if (liked) {
+        likeBtn.classList.add('liked');
+        likeBtn.textContent = '💚 Liked';
+      } else {
+        likeBtn.classList.remove('liked');
+        likeBtn.textContent = '👍 Like';
+      }
+    }
 
     function toggleLike() {
       liked = !liked;
-      const btn = document.getElementById('likeBtn');
-      const count = document.getElementById('likeCount');
-
-      if (liked) {
-        likes++;
-        btn.classList.add('liked');
-        btn.textContent = '💚 Liked';
-      } else {
-        likes--;
-        btn.classList.remove('liked');
-        btn.textContent = '👍 Like';
-      }
-
-      count.textContent = `Likes: ${likes}`;
+      likes += liked ? 1 : -1;
+      localStorage.setItem('likes', likes);
+      updateLikeDisplay();
     }
 
     function toggleFullscreen() {
@@ -165,6 +168,8 @@
         document.exitFullscreen();
       }
     }
+
+    updateLikeDisplay();
   </script>
 </body>
 </html>
