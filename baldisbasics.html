@@ -1,1 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Baldi's Basics</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(270deg, #ff4b2b, #1e90ff, #8e44ad, #00bcd4, #ff9800, #ff4b2b);
+      background-size: 1200% 1200%;
+      animation: gradientShift 30s ease infinite;
+      color: #fff;
+    }
 
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    header {
+      background: linear-gradient(270deg, #ff4b2b, #1e90ff, #8e44ad, #00bcd4, #ff9800, #ff4b2b);
+      background-size: 1200% 1200%;
+      animation: gradientShift 30s ease infinite;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 24px 32px;
+      border-bottom: 1px solid #333;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+
+    .logo {
+      font-size: 2rem;
+      font-weight: bold;
+      background: linear-gradient(90deg, #ff416c, #ff4b2b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+    }
+
+    .search-container {
+      flex-grow: 1;
+      max-width: 400px;
+    }
+
+    .search-container input {
+      width: 100%;
+      padding: 10px 16px;
+      border-radius: 30px;
+      border: none;
+      background-color: #2a2a2a;
+      color: #fff;
+      font-size: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    }
+
+    .games-btn {
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: transform 0.2s ease;
+    }
+
+    .games-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .game-frame-container {
+      width: 85%;
+      max-width: 1200px;
+      height: 720px;
+      margin: 40px auto;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0,0,0,0.4);
+      transition: all 0.3s ease;
+    }
+
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .controls {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .like-btn, .fullscreen-btn {
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      border: none;
+      padding: 12px 24px;
+      border-radius: 30px;
+      color: #fff;
+      font-weight: 600;
+      font-size: 1.1rem;
+      cursor: pointer;
+      box-shadow: 0 0 10px #ff4b2b;
+      transition: all 0.3s ease;
+      text-shadow: 0 0 5px #fff;
+    }
+
+    .like-btn.liked {
+      background: #00c853;
+      box-shadow: 0 0 15px #00c853;
+    }
+
+    .like-btn:hover, .fullscreen-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .like-count-box {
+      background: rgba(255, 255, 255, 0.1);
+      border: 2px solid #fff;
+      border-radius: 20px;
+      padding: 10px 20px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+      text-shadow: 0 0 5px #fff;
+      box-shadow: 0 0 10px #ff4b2b;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">SuperGames</div>
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search games..." />
+    </div>
+    <button class="games-btn" onclick="window.location.href='games.html'">All Games</button>
+  </header>
+
+  <div class="game-frame-container">
+    <iframe src="/src/baldisbasicssrc.html"></iframe>
+  </div>
+
+  <div class="controls">
+    <button class="like-btn" id="likeBtn" onclick="toggleLike()">👍 Like</button>
+    <div class="like-count-box" id="likeCount">Likes: 0</div>
+    <button class="fullscreen-btn" onclick="toggleFullscreen()">🖥️ Full Screen</button>
+  </div>
+
+  <script>
+    const gameTitle = "Baldi's Basics";
+    const likeBtn = document.getElementById('likeBtn');
+    const likeCount = document.getElementById('likeCount');
+
+    let likes = parseInt(localStorage.getItem(`${gameTitle}_likes`)) || 0;
+    let liked = localStorage.getItem(`${gameTitle}_liked`) === "true" && likes > 0;
+
+    function updateLikeDisplay() {
+      likeCount.textContent = `Likes: ${likes}`;
+      if (liked) {
+        likeBtn.classList.add('liked');
+        likeBtn.textContent = '💚 Liked';
+      } else {
+        likeBtn.classList.remove('liked');
+        likeBtn.textContent = '👍 Like';
+      }
+    }
+
+    function toggleLike() {
+      if (liked) {
+        likes--;
+        liked = false;
+        localStorage.removeItem(`${gameTitle}_liked`);
+        if (likes <= 0) {
+          localStorage.removeItem(`${gameTitle}_likes`);
+        } else {
+          localStorage.setItem(`${gameTitle}_likes`, likes);
+        }
+      } else {
+        likes++;
+        liked = true;
+        localStorage.setItem(`${gameTitle
