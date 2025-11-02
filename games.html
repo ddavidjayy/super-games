@@ -186,24 +186,63 @@
   <div class="games-list">
     <!-- Liked Games Section -->
     <div id="likedGamesSection" style="display:none;">
-      <h1>❤️ Your Liked Games</h1>
+      <h2>❤️ Your Liked Games</h2>
       <div id="likedGamesList"></div>
     </div>
 
     <h1>All Games - Most Unblocked.</h1>
     <div class="games-grid" id="gamesGrid">
-      <!-- Your original game cards go here -->
-      <div class="game-card" data-title="Survival Race" onclick="window.location.href='survivalrace.html'">
-        <img src="https://lh3.googleusercontent.com/sitesv/AAzXCkemNf0BN2gkRw7eGlxVQXcxIK2XQ4FxXLv2LCcopNfQhM8Zt6LbxIQBdoVHqslBc_I6n4bMAnc_mNt5iko1cB9EJ7atwFMR7D2OYeSNq4GaV93VN2AmxBCdCt9c4WzoUbc0Htm_jNEY1glM6x_6MksPdptUWmHwD6RHfyMZlDNio0GLKDoTwo4hp7uVQvMs8Ik3v9O-5R9h8YS55CYuWZEt6nk4Jvbc2IsB=w1280" alt="Survival Race">
-        <div class="game-card-title">Survival Race</div>
-      </div>
+      <!-- Your game cards go here -->
+      <!-- Example card -->
       <div class="game-card" data-title="Brawl Stars" onclick="window.location.href='brawlstars.html'">
         <img src="https://staticg.sportskeeda.com/editor/2023/12/8397f-17024614684468-1920.jpg" alt="Brawl Stars">
         <div class="game-card-title">Brawl Stars</div>
       </div>
-      <div class="game-card" data-title="Cart Simulator" onclick="window.location.href='cartsimulator.html'">
-        <img src="https://tr.rbxcdn.com/180DAY-9a7023ad3a55c382940260723c1409f2/768/432/Image/Webp/noFilter" alt="Cart Simulator">
-        <div class="game-card-title">Cart Simulator</div>
-      </div>
-      <div class="game-card" data-title="Sonic Advance" onclick="window.location.href='sonicadvance.html'">
-        <img src="https://cdn.mobygames.com/covers/4089338-sonic-advance-game-boy
+      <!-- Add more cards as needed -->
+    </div>
+  </div>
+
+  <script>
+    // Search filter
+    const searchInput = document.getElementById('searchInput');
+    const gamesGrid = document.getElementById('gamesGrid');
+    const gameCards = gamesGrid.querySelectorAll('.game-card');
+
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase();
+      gameCards.forEach(card => {
+        const title = card.getAttribute('data-title').toLowerCase();
+        card.style.display = title.includes(query) ? 'flex' : 'none';
+      });
+    });
+
+    // Liked Games Section — FINAL FIX
+    const likedSection = document.getElementById('likedGamesSection');
+    const likedList = document.getElementById('likedGamesList');
+
+    const likedGames = [];
+
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key.endsWith('_liked') && localStorage.getItem(key) === 'true') {
+        const gameTitle = key.replace('_liked', '');
+        if (!likedGames.includes(gameTitle)) {
+          likedGames.push(gameTitle);
+        }
+      }
+    }
+
+    if (likedGames.length > 0) {
+      likedSection.style.display = 'block';
+      likedGames.forEach(game => {
+        const link = document.createElement('a');
+        const fileName = game.toLowerCase().replace(/\s+/g, '') + '.html';
+        link.href = fileName;
+        link.className = 'liked-game';
+        link.textContent = game;
+        likedList.appendChild(link);
+      });
+    }
+  </script>
+</body>
+</html>
