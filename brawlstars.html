@@ -203,7 +203,7 @@
     const likeCount = document.getElementById('likeCount');
 
     let likes = parseInt(localStorage.getItem(`${gameTitle}_likes`)) || 0;
-    let liked = localStorage.getItem(`${gameTitle}_liked`) === "true";
+    let liked = localStorage.getItem(`${gameTitle}_liked`) === "true" && likes > 0;
 
     function updateLikeDisplay() {
       likeCount.textContent = `Likes: ${likes}`;
@@ -220,7 +220,7 @@
       if (liked) {
         likes--;
         liked = false;
-        removeLikedGame(gameTitle);
+        localStorage.removeItem(`${gameTitle}_liked`);
         if (likes <= 0) {
           localStorage.removeItem(`${gameTitle}_likes`);
         } else {
@@ -229,23 +229,12 @@
       } else {
         likes++;
         liked = true;
-        saveLikedGame(gameTitle);
+        localStorage.setItem(`${gameTitle}_liked`, "true");
         localStorage.setItem(`${gameTitle}_likes`, likes);
       }
 
-      localStorage.setItem(`${gameTitle}_liked`, liked);
       updateLikeDisplay();
     }
-
-    function saveLikedGame(title) {
-      localStorage.setItem(`${title}_liked`, "true");
-    }
-
-    function removeLikedGame(title) {
-      localStorage.removeItem(`${title}_liked`);
-    }
-
-    updateLikeDisplay();
 
     function toggleFullscreen() {
       const iframe = document.querySelector('iframe');
@@ -258,4 +247,7 @@
       }
     }
 
-    const searchInput = document.getElementById
+    updateLikeDisplay();
+  </script>
+</body>
+</html>
