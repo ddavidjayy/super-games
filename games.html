@@ -220,47 +220,48 @@
           <div class="game-card-title">Sonic Revert</div>
   </div>
 
-  <script>
-    // Search filter
-    const searchInput = document.getElementById('searchInput');
-    const gamesGrid = document.getElementById('gamesGrid');
-    const gameCards = gamesGrid.querySelectorAll('.game-card');
+<script>
+  // Search filter
+  const searchInput = document.getElementById('searchInput');
+  const gamesGrid = document.getElementById('gamesGrid');
+  const gameCards = gamesGrid.querySelectorAll('.game-card');
 
-    searchInput.addEventListener('input', () => {
-      const query = searchInput.value.toLowerCase();
-      gameCards.forEach(card => {
-        const title = card.getAttribute('data-title').toLowerCase();
-        card.style.display = title.includes(query) ? 'flex' : 'none';
-      });
+  searchInput.addEventListener('input', () => {
+    const query = searchInput.value.toLowerCase();
+    gameCards.forEach(card => {
+      const title = card.getAttribute('data-title')?.toLowerCase() || '';
+      card.style.display = title.includes(query) ? 'flex' : 'none';
     });
+  });
 
-    // Liked Games Section — FINAL FIX
-    const likedSection = document.getElementById('likedGamesSection');
-    const likedList = document.getElementById('likedGamesList');
+  // Liked Games Section — FIXED
+  const likedSection = document.getElementById('likedGamesSection');
+  const likedList = document.getElementById('likedGamesList');
+  const likedGames = [];
 
-    const likedGames = [];
-
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
-      if (key.endsWith('_liked') && localStorage.getItem(key) === 'true') {
-        const gameTitle = key.replace('_liked', '');
-        if (!likedGames.includes(gameTitle)) {
-          likedGames.push(gameTitle);
-        }
+  for (let i = 0; i < localStorage.length; i++) {
+    const key = localStorage.key(i);
+    if (key.endsWith('_liked') && localStorage.getItem(key) === 'true') {
+      const gameTitle = key.replace('_liked', '');
+      const likeCount = parseInt(localStorage.getItem(`${gameTitle}_likes`)) || 0;
+      if (likeCount > 0 && !likedGames.includes(gameTitle)) {
+        likedGames.push(gameTitle);
       }
     }
+  }
 
-    if (likedGames.length > 0) {
-      likedSection.style.display = 'block';
-      likedGames.forEach(game => {
-        const link = document.createElement('a');
-        const fileName = game.toLowerCase().replace(/\s+/g, '') + '.html';
-        link.href = fileName;
-        link.className = 'liked-game';
-        link.textContent = game;
-        likedList.appendChild(link);
-      });
-    }
-  </script>
+  if (likedGames.length > 0) {
+    likedSection.style.display = 'block';
+    likedGames.forEach(game => {
+      const link = document.createElement('a');
+      const fileName = game.toLowerCase().replace(/\s+/g, '') + '.html';
+      link.href = fileName;
+      link.className = 'liked-game';
+      link.textContent = game;
+      likedList.appendChild(link);
+    });
+  }
+</script>
+
 </body>
 </html>
