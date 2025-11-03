@@ -14,23 +14,23 @@
       color: #fff;
     }
 
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     header {
       background: linear-gradient(270deg, #ff4b2b, #1e90ff, #8e44ad, #00bcd4, #ff9800, #ff4b2b);
       background-size: 1200% 1200%;
       animation: gradientShift 30s ease infinite;
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
       padding: 24px 32px;
       border-bottom: 1px solid #333;
-      gap: 32px;
       flex-wrap: wrap;
-    }
-
-    @keyframes gradientShift {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      gap: 20px;
     }
 
     .logo {
@@ -53,11 +53,26 @@
       font-size: 1rem;
       box-shadow: 0 4px 10px rgba(0,0,0,0.3);
       transition: transform 0.2s ease;
-      margin-left: 16px;
     }
 
     .games-btn:hover {
       transform: scale(1.05);
+    }
+
+    .search-container {
+      flex-grow: 1;
+      max-width: 400px;
+    }
+
+    .search-container input {
+      width: 100%;
+      padding: 10px 16px;
+      border-radius: 30px;
+      border: none;
+      background-color: #2a2a2a;
+      color: #fff;
+      font-size: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
     }
 
     .main {
@@ -104,31 +119,34 @@
       margin-top: 16px;
     }
 
-     .game-card {
-  background-color: #1a1a1a;
-  border-radius: 8px;
-  overflow: hidden;
-  text-align: center;
-  padding: 12px;
-  transition: background-color 0.3s;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  cursor: pointer;
-  height: 100%;
-}
+    .game-card {
+      background-color: #1a1a1a;
+      border-radius: 8px;
+      overflow: hidden;
+      text-align: center;
+      padding: 12px;
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      cursor: pointer;
+      height: 100%;
+      box-shadow: 0 0 10px #ff4b2b;
+    }
 
     .game-card:hover {
       background-color: #2a2a2a;
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #ff4b2b;
     }
 
-.game-card img {
-  width: 100%;
-  height: 140px;
-  object-fit: cover;
-  border-radius: 4px;
-  margin-bottom: 8px;
-}
+    .game-card img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
 
     .game-card-title {
       font-weight: bold;
@@ -140,6 +158,9 @@
 <body>
   <header>
     <div class="logo">SuperGames</div>
+    <div class="search-container">
+      <input type="text" id="searchInput" placeholder="Search games..." />
+    </div>
     <a href="games.html">
       <button class="games-btn">All Games</button>
     </a>
@@ -148,18 +169,51 @@
   <div class="main">
     <div class="tags">★ Most Popular Games</div>
     <div class="popular-wrapper">
-      <div class="popular-grid">
-        <div class="game-card" onclick="window.location.href='survivalrace.html'">
+      <div class="popular-grid" id="popularGrid">
+        <div class="game-card" data-title="Survival Race" onclick="playGame('survivalrace.html', 'Survival Race')">
           <img src="https://lh3.googleusercontent.com/sitesv/AAzXCkemNf0BN2gkRw7eGlxVQXcxIK2XQ4FxXLv2LCcopNfQhM8Zt6LbxIQBdoVHqslBc_I6n4bMAnc_mNt5iko1cB9EJ7atwFMR7D2OYeSNq4GaV93VN2AmxBCdCt9c4WzoUbc0Htm_jNEY1glM6x_6MksPdptUWmHwD6RHfyMZlDNio0GLKDoTwo4hp7uVQvMs8Ik3v9O-5R9h8YS55CYuWZEt6nk4Jvbc2IsB=w1280" alt="Survival Race">
           <div class="game-card-title">Survival Race</div>
         </div>
-        <div class="game-card" onclick="window.location.href='brawlstars.html'">
+        <div class="game-card" data-title="Brawl Stars" onclick="playGame('brawlstars.html', 'Brawl Stars')">
           <img src="https://staticg.sportskeeda.com/editor/2023/12/8397f-17024614684468-1920.jpg" alt="Brawl Stars">
           <div class="game-card-title">Brawl Stars</div>
         </div>
-        <div class="game-card" onclick="window.location.href='cartsimulator.html'">
+        <div class="game-card" data-title="Cart Simulator" onclick="playGame('cartsimulator.html', 'Cart Simulator')">
           <img src="https://tr.rbxcdn.com/180DAY-9a7023ad3a55c382940260723c1409f2/768/432/Image/Webp/noFilter" alt="Cart Simulator">
           <div class="game-card-title">Cart Simulator</div>
         </div>
       </div>
     </div>
+
+    <div class="games-list">
+      <h2>Recently Played</h2>
+      <div class="games-grid" id="recentGrid"></div>
+    </div>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById('searchInput');
+    const popularGrid = document.getElementById('popularGrid');
+    const recentGrid = document.getElementById('recentGrid');
+
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase();
+      document.querySelectorAll('.game-card').forEach(card => {
+        const title = card.getAttribute('data-title')?.toLowerCase() || '';
+        card.style.display = title.includes(query) ? 'flex' : 'none';
+      });
+    });
+
+    function playGame(url, title) {
+      const recent = JSON.parse(localStorage.getItem('recentGames')) || [];
+      const updated = [title, ...recent.filter(g => g !== title)].slice(0, 6);
+      localStorage.setItem('recentGames', JSON.stringify(updated));
+      window.location.href = url;
+    }
+
+    function loadRecentGames() {
+      const recent = JSON.parse(localStorage.getItem('recentGames')) || [];
+      recentGrid.innerHTML = '';
+      recent.forEach(title => {
+        const file = title.toLowerCase().replace(/\s+/g, '') + '.html';
+        const card = document.create
