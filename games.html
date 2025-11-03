@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SuperGames - Games</title>
   <style>
-    /* Existing styles... */
     body {
       margin: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -21,13 +20,76 @@
       100% { background-position: 0% 50%; }
     }
 
-    header { /* ... */ }
-    .logo { /* ... */ }
-    .search-container { /* ... */ }
-    .search-container input:focus { /* ... */ }
-    .games-btn { /* ... */ }
-    .games-btn:hover { /* ... */ }
-    .games-list { border-top: 1px solid #333; padding: 40px 32px; }
+    header {
+      background: linear-gradient(270deg, #ff4b2b, #1e90ff, #8e44ad, #00bcd4, #ff9800, #ff4b2b);
+      background-size: 1200% 1200%;
+      animation: gradientShift 30s ease infinite;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px 32px;
+      border-bottom: 2px solid #333;
+      gap: 32px;
+      flex-wrap: wrap;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .logo {
+      font-size: 3rem;
+      font-weight: 900;
+      background: linear-gradient(90deg, #ff416c, #ff4b2b);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
+    }
+
+    .search-container {
+      flex-grow: 1;
+      max-width: 500px;
+      position: relative;
+    }
+
+    .search-container input {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: 30px;
+      border: none;
+      background-color: #2a2a2a;
+      color: #fff;
+      font-size: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+      transition: 0.3s ease;
+    }
+
+    .search-container input:focus {
+      outline: none;
+      background-color: #333;
+      box-shadow: 0 0 0 3px #e50914;
+    }
+
+    .games-btn {
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      color: #fff;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 30px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 1rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+      transition: transform 0.2s ease;
+      margin-left: 16px;
+    }
+
+    .games-btn:hover {
+      transform: scale(1.05);
+    }
+
+    .games-list {
+      border-top: 1px solid #333;
+      padding: 40px 32px;
+    }
+
     .games-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -35,10 +97,37 @@
       margin-top: 16px;
     }
 
-    .game-card { /* ... */ }
-    .game-card:hover { /* ... */ }
-    .game-card img { /* ... */ }
-    .game-card-title { font-weight: bold; color: #fff; font-size: 1rem; }
+    .game-card {
+      background-color: #1a1a1a;
+      border-radius: 8px;
+      overflow: hidden;
+      text-align: center;
+      padding: 12px;
+      transition: background-color 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      cursor: pointer;
+      height: 100%;
+    }
+
+    .game-card:hover {
+      background-color: #2a2a2a;
+    }
+
+    .game-card img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+
+    .game-card-title {
+      font-weight: bold;
+      color: #fff;
+      font-size: 1rem;
+    }
 
     #likedGamesSection {
       margin-bottom: 40px;
@@ -49,8 +138,7 @@
       box-shadow: 0 0 12px #ff4b2b;
     }
 
-    #likedGamesSection h2,
-    #recentlyPlayedSection h2 {
+    #likedGamesSection h2 {
       font-size: 2rem;
       margin-bottom: 16px;
       text-align: center;
@@ -101,49 +189,38 @@
       <button class="games-btn" onclick="clearLikedGames()">🗑️ Clear Liked Games</button>
       <div id="likedGamesList"></div>
     </div>
-
-    <!-- Recently Played Section -->
-    <div id="recentlyPlayedSection" style="display:none;">
-      <h2>🕹️ Recently Played</h2>
-      <div class="games-grid" id="recentlyPlayedGrid"></div>
-    </div>
-
     <h1>All Games - Most Unblocked.</h1>
-    <div class="games-grid" id="gamesGrid">
-      <div class="game-card" data-title="Brawl Stars" onclick="window.location.href='brawlstars.html'">
-        <img src="https://staticg.sportskeeda.com/editor/2023/12/8397f-17024614684468-1920.jpg" alt="Brawl Stars">
-        <div class="game-card-title">Brawl Stars</div>
-      </div>
-      <div class="game-card" data-title="Survival Race" onclick="window.location.href='survivalrace.html'">
-        <img src="https://survival-race.io/data/image/survival-race.jpg" alt="Survival Race">
-        <div class="game-card-title">Survival Race</div>
-      </div>
-      <div class="game-card" data-title="Cart Simulator" onclick="window.location.href='cartsimulator.html'">
-        <img src="https://tr.rbxcdn.com/180DAY-9a7023ad3a55c382940260723c1409f2/768/432/Image/Webp/noFilter" alt="Cart Simulator">
-        <div class="game-card-title">Cart Simulator</div>
-      </div>
-      <div class="game-card" data-title="Granny" onclick="window.location.href='granny.html'">
-        <img src="https://play-lh.googleusercontent.com/YBz18LRH9Z7PV4zU4PDiALP0cCzT00OOeM91OeAR28Nldps-iTj-HscpMnnjDVKIaxs=w526-h296-rw" alt="Granny">
-        <div class="game-card-title">Granny</div>
-      </div>
-      <div class="game-card" data-title="Sonic Advance" onclick="window.location.href='sonicadvance.html'">
-        <img src="https://howlongtobeat.com/games/8745_Sonic_Advance.png?width=760" alt="Sonic Advance">
-        <div class="game-card-title">Sonic Advance</div>
-      </div>
-      <div class="game-card" data-title="Sonic Revert" onclick="window.location.href='sonicrevert.html'">
-        <img src="https://mariogames.io/data/image/game/Sonic%20Revert.png" alt="Sonic Revert">
-        <div class="game-card-title">Sonic Revert</div>
-      </div>
-      <div class="game-card" data-title="Baldis Basics" onclick="window.location.href='baldisbasics.html'">
-        <img src="https://play-lh.googleusercontent.com/EPV1TB4So1lB0DGrdCVExDpNU8ML67nd8OqBeoOIM-s6sDicxmDdPvCXD6n7LKevFl0" alt="Baldi's Basics">
-        <div class="game-card-title">Baldi's Basics</div>
-      </div>
-    </div>
+<div class="games-grid" id="gamesGrid">
+  <div class="game-card" data-title="Brawl Stars" onclick="window.location.href='brawlstars.html'">
+    <img src="https://staticg.sportskeeda.com/editor/2023/12/8397f-17024614684468-1920.jpg" alt="Brawl Stars">
+    <div class="game-card-title">Brawl Stars</div>
   </div>
-
- 
-
-  <script>
+  <div class="game-card" data-title="Survival Race" onclick="window.location.href='survivalrace.html'">
+    <img src="https://survival-race.io/data/image/survival-race.jpg" alt="Survival Race">
+    <div class="game-card-title">Survival Race</div>
+  </div>
+  <div class="game-card" data-title="Cart Simulator" onclick="window.location.href='cartsimulator.html'">
+    <img src="https://tr.rbxcdn.com/180DAY-9a7023ad3a55c382940260723c1409f2/768/432/Image/Webp/noFilter" alt="Cart Simulator">
+    <div class="game-card-title">Cart Simulator</div>
+  </div>
+  <div class="game-card" data-title="Granny" onclick="window.location.href='granny.html'">
+    <img src="https://play-lh.googleusercontent.com/YBz18LRH9Z7PV4zU4PDiALP0cCzT00OOeM91OeAR28Nldps-iTj-HscpMnnjDVKIaxs=w526-h296-rw" alt="Granny">
+    <div class="game-card-title">Granny</div>
+  </div>
+  <div class="game-card" data-title="Sonic Advance" onclick="window.location.href='sonicadvance.html'">
+    <img src="https://howlongtobeat.com/games/8745_Sonic_Advance.png?width=760" alt="Sonic Advance">
+    <div class="game-card-title">Sonic Advance</div>
+  </div>
+  <div class="game-card" data-title="Sonic Revert" onclick="window.location.href='sonicrevert.html'">
+    <img src="https://mariogames.io/data/image/game/Sonic%20Revert.png" alt="Sonic Revert">
+    <div class="game-card-title">Sonic Revert</div>
+  </div>
+  <div class="game-card" data-title="Baldis Basics" onclick="window.location.href='baldisbasics.html'">
+    <img src="https://play-lh.googleusercontent.com/EPV1TB4So1lB0DGrdCVExDpNU8ML67nd8OqBeoOIM-s6sDicxmDdPvCXD6n7LKevFl0" alt="Baldi's Basics">
+    <div class="game-card-title">Baldi's Basics</div>
+  </div>
+</div>"
+    <script>
     // Search filter
     const searchInput = document.getElementById('searchInput');
     const gamesGrid = document.getElementById('gamesGrid');
@@ -188,39 +265,17 @@
     // Clear Liked Games Button
     function clearLikedGames() {
       const keysToRemove = [];
-
       for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
         if (key.endsWith('_liked') || key.endsWith('_likes')) {
           keysToRemove.push(key);
         }
       }
-
       keysToRemove.forEach(key => localStorage.removeItem(key));
       likedList.innerHTML = '';
       likedSection.style.display = 'none';
     }
-
-    // Recently Played Section
-    const recentSection = document.getElementById('recentlyPlayedSection');
-    const recentGrid = document.getElementById('recentlyPlayedGrid');
-    const recentGames = JSON.parse(localStorage.getItem('recentGames')) || [];
-
-    if (recentGames.length > 0) {
-      recentSection.style.display = 'block';
-      recentGames.forEach(title => {
-        const fileName = title.toLowerCase().replace(/\s+/g, '') + '.html';
-        const card = document.createElement('div');
-        card.className = 'game-card';
-        card.setAttribute('data-title', title);
-        card.onclick = () => window.location.href = fileName;
-        card.innerHTML = `
-          <img src="https://via.placeholder.com/300x140?text=${encodeURIComponent(title)}" alt="${title}">
-          <div class="game-card-title">${title}</div>
-        `;
-        recentGrid.appendChild(card);
-      });
-    }
   </script>
+
 </body>
 </html>
