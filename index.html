@@ -80,12 +80,16 @@
     }
 
     .player-count {
+      background: linear-gradient(to right, #ff9800, #4caf50, #00bcd4);
+      padding: 16px 32px;
+      border-radius: 20px;
       text-align: center;
-      font-size: 1.2rem;
+      font-size: 2rem;
       font-weight: bold;
-      color: #00ffcc;
-      text-shadow: 0 0 5px #00ffcc;
-      margin-bottom: 24px;
+      color: #fff;
+      text-shadow: 0 0 4px rgba(255,255,255,0.8);
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+      margin-bottom: 40px;
     }
 
     .tags {
@@ -186,22 +190,8 @@
   <div class="main">
     <div class="player-count" id="playerCount">Active Players: 0</div>
     <div class="tags">Most Popular Games</div>
-
     <div class="popular-grid" id="popularGrid"></div>
-      <div class="game-card" data-title="Survival Race" onclick="playGame('survivalrace.html', 'Survival Race')">
-        <img src="https://lh3.googleusercontent.com/sitesv/AAzXCkemNf0BN2gkRw7eGlxVQXcxIK2XQ4FxXLv2LCcopNfQhM8Zt6LbxIQBdoVHqslBc_I6n4bMAnc_mNt5iko1cB9EJ7atwFMR7D2OYeSNq4GaV93VN2AmxBCdCt9c4WzoUbc0Htm_jNEY1glM6x_6MksPdptUWmHwD6RHfyMZlDNio0GLKDoTwo4hp7uVQvMs8Ik3v9O-5R9h8YS55CYuWZEt6nk4Jvbc2IsB=w1280" alt="Survival Race">
-        <div class="game-card-title">Survival Race</div>
-      </div>
-      <div class="game-card" data-title="Brawl Stars" onclick="playGame('brawlstars.html', 'Brawl Stars')">
-        <img src="https://staticg.sportskeeda.com/editor/2023/12/8397f-17024614684468-1920.jpg" alt="Brawl Stars">
-        <div class="game-card-title">Brawl Stars</div>
-      </div>
-      <div class="game-card" data-title="Cart Simulator" onclick="playGame('cartsimulator.html', 'Cart Simulator')">
-        <img src="https://tr.rbxcdn.com/180DAY-9a7023ad3a55c382940260723c1409f2/768/432/Image/Webp/noFilter" alt="Cart Simulator">
-        <div class="game-card-title">Cart Simulator</div>
-      </div>
-    </div>
-  
+    
     <div class="games-list">
       <h2>Recently Played</h2>
       <div class="games-grid" id="recentGrid"></div>
@@ -248,13 +238,3 @@
       const updated = [title, ...recent.filter(g => g !== title)].slice(0, 6);
       localStorage.setItem('recentGames', JSON.stringify(updated));
       window.location.href = url;
-    }
-
-    function loadPopularGames() {
-      popularGrid.innerHTML = '';
-      Object.keys(gameStats).forEach(title => {
-        renderGameCard(title, null, popularGrid);
-      });
-    }
-
-    function loadRecentGames() {
