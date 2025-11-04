@@ -314,6 +314,8 @@
     <div class="game-card-title">Tap Goal</div>
   </div>
 </div>
+<div id="overlayContainer"></div>
+
 <script>
   window.addEventListener('DOMContentLoaded', () => {
     // Search filter
@@ -348,14 +350,12 @@
 
         overlay.appendChild(img);
         overlay.appendChild(label);
-        document.body.appendChild(overlay);
+        document.getElementById('overlayContainer').appendChild(overlay);
 
-        // Trigger animation
         setTimeout(() => {
           overlay.classList.add('animate');
         }, 50);
 
-        // Redirect after animation
         setTimeout(() => {
           window.location.href = url;
         }, 700);
