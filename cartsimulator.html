@@ -234,13 +234,12 @@
   <div class="games-grid" id="gamesGrid"></div>
 
   <script>
-    // Like button logic
     const gameTitle = "Cart Simulator";
     const likeBtn = document.getElementById('likeBtn');
     const likeCount = document.getElementById('likeCount');
 
     let likes = parseInt(localStorage.getItem(`${gameTitle}_likes`)) || 0;
-    let liked = localStorage.getItem(`${gameTitle}_liked`) === "true";
+    let liked = localStorage.getItem(`${gameTitle}_liked`) === "true" && likes > 0;
 
     function updateLikeDisplay() {
       likeCount.textContent = `Likes: ${likes}`;
@@ -257,27 +256,21 @@
       if (liked) {
         likes--;
         liked = false;
-        removeLikedGame(gameTitle);
+        localStorage.removeItem(`${gameTitle}_liked`);
+        if (likes <= 0) {
+          localStorage.removeItem(`${gameTitle}_likes`);
+        } else {
+          localStorage.setItem(`${gameTitle}_likes`, likes);
+        }
       } else {
         likes++;
         liked = true;
-        saveLikedGame(gameTitle);
+        localStorage.setItem(`${gameTitle}_liked`, "true");
+        localStorage.setItem(`${gameTitle}_likes`, likes);
       }
 
-      localStorage.setItem(`${gameTitle}_likes`, likes);
-      localStorage.setItem(`${gameTitle}_liked`, liked);
       updateLikeDisplay();
     }
-
-    function saveLikedGame(title) {
-      localStorage.setItem(`${title}_liked`, "true");
-    }
-
-    function removeLikedGame(title) {
-      localStorage.removeItem(`${title}_liked`);
-    }
-
-    updateLikeDisplay();
 
     function toggleFullscreen() {
       const iframe = document.querySelector('iframe');
@@ -290,48 +283,7 @@
       }
     }
 
-    // Game search and render logic
-    const searchInput = document.getElementById('searchInput');
-    const gamesGrid = document.getElementById('gamesGrid');
-
-    const allGames = [
-      {
-        title: "Cart Simulator",
-        image: "https://tr.rbxcdn.com/180DAY-9a7023ad3a55c382940260723c1409f2/768/432/Image/Webp/noFilter",
-        link: "cartsimulator.html"
-      },
-      {
-        title: "Brawl Stars",
-        image: "https://staticg.sportskeeda.com/editor/2023/12/8397f-17024614684468-1920.jpg",
-        link: "brawlstars.html"
-      }
-      // Add more games here
-    ];
-
-    function renderGames(games) {
-      gamesGrid.innerHTML = '';
-      games.forEach(game => {
-        const card = document.createElement('div');
-        card.className = 'game-card';
-        card.setAttribute('data-title', game.title);
-        card.onclick = () => window.location.href = game.link;
-
-        card.innerHTML = `
-          <img src="${game.image}" alt="${game.title}">
-          <div class="game-card-title">${game.title}</div>
-        `;
-        gamesGrid.appendChild(card);
-      });
-    }
-
-    renderGames(allGames);
-
-    searchInput.addEventListener('input', () => {
-      const query = searchInput.value.toLowerCase();
-      const filtered = allGames.filter(game =>
-        game.title.toLowerCase().includes(query)
-      );
-      renderGames(filtered);
-    });
+    updateLikeDisplay();
   </script>
+
 </body>
