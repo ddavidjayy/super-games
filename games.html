@@ -108,12 +108,27 @@
       -webkit-text-fill-color: transparent;
       text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
     }
+    
+    header {
+  background: linear-gradient(270deg, #ff4b2b, #1e90ff, #8e44ad, #00bcd4, #ff9800, #ff4b2b);
+  background-size: 1200% 1200%;
+  animation: gradientShift 30s ease infinite;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 32px;
+  border-bottom: 2px solid #333;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
 
 .search-container {
-  width: 100%;
-  max-width: 500px;
+  flex: 1;
   display: flex;
   justify-content: center;
+  max-width: 500px;
 }
 
     .search-container input {
@@ -145,7 +160,7 @@
   font-size: 1rem;
   box-shadow: 0 4px 10px rgba(0,0,0,0.3);
   transition: transform 0.2s ease;
-  margin-left: 16px;
+  margin: 0; 
 }
 
     .games-btn:hover {
@@ -246,6 +261,10 @@
     <div class="search-container">
       <input type="text" id="searchInput" placeholder="Search games..." />
     </div>
+    <a href="index.html">
+      <button class="games-btn">Home</button>
+    </a>
+  </header>
 <div style="display: flex; justify-content: center;">
   <a href="index.html">
     <button class="games-btn">Home</button>
