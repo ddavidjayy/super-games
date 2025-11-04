@@ -292,18 +292,23 @@
     });
   });
 
-  // App-style launch animation
-  gameCards.forEach(card => {
-    card.addEventListener('click', e => {
-      e.stopPropagation();
-      card.classList.add('launching');
-      const url = card.getAttribute('data-url');
-      setTimeout(() => {
-        window.location.href = url;
-      }, 600); // Match animation duration
-    });
-  });
+// App-style launch animation with redirect
+document.querySelectorAll('.game-card').forEach(card => {
+  card.addEventListener('click', e => {
+    e.stopPropagation();
 
+    // Add animation class
+    card.classList.add('launching');
+
+    // Get the URL from data-url
+    const url = card.getAttribute('data-url');
+
+    // Delay navigation to allow animation to play
+    setTimeout(() => {
+      window.location.href = url;
+    }, 600); // Match the duration of .launching animation
+  });
+});
   // Liked Games Section
   const likedSection = document.getElementById('likedGamesSection');
   const likedList = document.getElementById('likedGamesList');
