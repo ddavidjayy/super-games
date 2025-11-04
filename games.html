@@ -279,74 +279,73 @@
   </div>
 </div>
 <script>
-  const searchInput = document.getElementById('searchInput');
-  const gamesGrid = document.getElementById('gamesGrid');
-  const gameCards = gamesGrid.querySelectorAll('.game-card');
+  window.addEventListener('DOMContentLoaded', () => {
+    // Search filter
+    const searchInput = document.getElementById('searchInput');
+    const gamesGrid = document.getElementById('gamesGrid');
+    const gameCards = gamesGrid.querySelectorAll('.game-card');
 
-  // Search filter
-  searchInput.addEventListener('input', () => {
-    const query = searchInput.value.toLowerCase();
+    searchInput.addEventListener('input', () => {
+      const query = searchInput.value.toLowerCase();
+      gameCards.forEach(card => {
+        const title = card.getAttribute('data-title')?.toLowerCase() || '';
+        card.style.display = title.includes(query) ? 'flex' : 'none';
+      });
+    });
+
+    // App-style launch animation with redirect
     gameCards.forEach(card => {
-      const title = card.getAttribute('data-title')?.toLowerCase() || '';
-      card.style.display = title.includes(query) ? 'flex' : 'none';
+      card.addEventListener('click', () => {
+        card.classList.add('launching');
+        const url = card.getAttribute('data-url');
+        setTimeout(() => {
+          window.location.href = url;
+        }, 600); // Match animation duration
+      });
     });
-  });
 
-// App-style launch animation with redirect
-document.querySelectorAll('.game-card').forEach(card => {
-  card.addEventListener('click', e => {
-    e.stopPropagation();
+    // Liked Games Section
+    const likedSection = document.getElementById('likedGamesSection');
+    const likedList = document.getElementById('likedGamesList');
+    const likedGames = [];
 
-    // Add animation class
-    card.classList.add('launching');
-
-    // Get the URL from data-url
-    const url = card.getAttribute('data-url');
-
-    // Delay navigation to allow animation to play
-    setTimeout(() => {
-      window.location.href = url;
-    }, 600); // Match the duration of .launching animation
-  });
-});
-  // Liked Games Section
-  const likedSection = document.getElementById('likedGamesSection');
-  const likedList = document.getElementById('likedGamesList');
-  const likedGames = [];
-
-  for (let i = 0; i < localStorage.length; i++) {
-    const key = localStorage.key(i);
-    if (key.endsWith('_liked') && localStorage.getItem(key) === 'true') {
-      const gameTitle = key.replace('_liked', '');
-      const likeCount = parseInt(localStorage.getItem(`${gameTitle}_likes`)) || 0;
-      if (likeCount > 0 && !likedGames.includes(gameTitle)) {
-        likedGames.push(gameTitle);
-      }
-    }
-  }
-
-  if (likedGames.length > 0) {
-    likedSection.style.display = 'block';
-    likedGames.forEach(game => {
-      const link = document.createElement('a');
-      const fileName = game.toLowerCase().replace(/\s+/g, '') + '.html';
-      link.href = fileName;
-      link.className = 'liked-game';
-      link.textContent = game;
-      likedList.appendChild(link);
-    });
-  }
-
-  // Clear Liked Games Button
-  function clearLikedGames() {
-    const keysToRemove = [];
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
-      if (key.endsWith('_liked') || key.endsWith('_likes')) {
-        keysToRemove.push(key);
+      if (key.endsWith('_liked') && localStorage.getItem(key) === 'true') {
+        const gameTitle = key.replace('_liked', '');
+        const likeCount = parseInt(localStorage.getItem(`${gameTitle}_likes`)) || 0;
+        if (likeCount > 0 && !likedGames.includes(gameTitle)) {
+          likedGames.push(gameTitle);
+        }
       }
     }
-    keysToRemove.forEach(key => localStorage.removeItem(key));
-    likedList.innerHTML = '';
-    likedSection.style.display = 'none';
-  }
+
+    if (likedGames.length > 0) {
+      likedSection.style.display = 'block';
+      likedGames.forEach(game => {
+        const link = document.createElement('a');
+        const fileName = game.toLowerCase().replace(/\s+/g, '') + '.html';
+        link.href = fileName;
+        link.className = 'liked-game';
+        link.textContent = game;
+        likedList.appendChild(link);
+      });
+    }
+
+    // Clear Liked Games Button
+    window.clearLikedGames = function () {
+      const keysToRemove = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.endsWith('_liked') || key.endsWith('_likes')) {
+          keysToRemove.push(key);
+        }
+      }
+      keysToRemove.forEach(key => localStorage.removeItem(key));
+      likedList.innerHTML = '';
+      likedSection.style.display = 'none';
+    };
+  });
+</script>
+</body>
+</html>
