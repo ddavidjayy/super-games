@@ -74,7 +74,33 @@
     .games-btn:hover {
       transform: scale(1.05);
     }
+.important-note-header {
+  background: linear-gradient(135deg, #ff416c, #ff4b2b);
+  border: 2px solid #fff;
+  border-radius: 16px;
+  padding: 20px;
+  margin: 40px auto 20px;
+  max-width: 900px;
+  box-shadow: 0 0 20px #ff4b2b;
+  color: #fff;
+  font-size: 1.4rem;
+  font-weight: bold;
+  text-align: center;
+  text-shadow: 0 0 6px rgba(255,255,255,0.6);
+  position: relative;
+}
 
+.important-note-header::before {
+  content: "⚠️ Important Note";
+  position: absolute;
+  top: -18px;
+  left: 24px;
+  background: #1a1a1a;
+  padding: 6px 14px;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  box-shadow: 0 0 10px #fff;
     .game-frame-container {
       width: 85%;
       max-width: 1200px;
