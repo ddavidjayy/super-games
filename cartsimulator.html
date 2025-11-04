@@ -75,6 +75,35 @@
       transform: scale(1.05);
     }
 
+    .important-note-header {
+      background: linear-gradient(135deg, #ff416c, #ff4b2b);
+      border: 2px solid #fff;
+      border-radius: 16px;
+      padding: 20px;
+      margin: 40px auto 20px;
+      max-width: 900px;
+      box-shadow: 0 0 20px #ff4b2b;
+      color: #fff;
+      font-size: 1.4rem;
+      font-weight: bold;
+      text-align: center;
+      text-shadow: 0 0 6px rgba(255,255,255,0.6);
+      position: relative;
+    }
+
+    .important-note-header::before {
+      content: "⚠️ Important Note";
+      position: absolute;
+      top: -18px;
+      left: 24px;
+      background: #1a1a1a;
+      padding: 6px 14px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: bold;
+      box-shadow: 0 0 10px #fff;
+    }
+
     .game-frame-container {
       width: 85%;
       max-width: 1200px;
@@ -135,45 +164,6 @@
       box-shadow: 0 0 10px #ff4b2b;
     }
 
-    .important-note {
-      background: rgba(255, 255, 255, 0.05);
-      border: 2px solid #fff;
-      border-radius: 16px;
-      padding: 20px;
-      margin: 40px auto;
-      max-width: 800px;
-      box-shadow: 0 0 15px #ff4b2b;
-      color: #fff;
-      font-size: 1.1rem;
-      position: relative;
-    }
-
-    .important-note::before {
-      content: "⚠️ Important Note";
-      position: absolute;
-      top: -16px;
-      left: 20px;
-      background: linear-gradient(135deg, #ff416c, #ff4b2b);
-      padding: 4px 12px;
-      border-radius: 12px;
-      font-weight: bold;
-      font-size: 1rem;
-      box-shadow: 0 0 10px #ff4b2b;
-    }
-
-    .important-note textarea {
-      width: 100%;
-      height: 120px;
-      background-color: #1a1a1a;
-      border: none;
-      border-radius: 12px;
-      padding: 12px;
-      color: #fff;
-      font-size: 1rem;
-      resize: vertical;
-      box-shadow: inset 0 0 10px rgba(255,255,255,0.1);
-    }
-
     .games-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
@@ -224,6 +214,12 @@
     <button class="games-btn" onclick="window.location.href='games.html'">All Games</button>
   </header>
 
+  <!-- ✅ Important Note Header -->
+  <div class="important-note-header">
+    Cart Simulator may take a few seconds to load. Please be patient!
+  </div>
+
+  <!-- Game Frame Section -->
   <div class="game-frame-container" id="gameContainer">
     <iframe src="/src/cartsimulatorsrc.html"></iframe>
   </div>
@@ -232,12 +228,6 @@
     <button class="like-btn" id="likeBtn" onclick="toggleLike()">👍 Like</button>
     <div class="like-count-box" id="likeCount">Likes: 0</div>
     <button class="fullscreen-btn" onclick="toggleFullscreen()">🖥️ Full Screen</button>
-  </div>
-
-  <!-- ✅ Important Note Section -->
-  <div class="important-note">
-    <textarea placeholder="Type your important note here..."></textarea>
-  
   </div>
 
   <!-- Dynamic Game Cards -->
