@@ -63,7 +63,43 @@
 .launching {
   animation: appLaunch 0.6s ease-out forwards;
 }
+    
+.launch-overlay {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1);
+  width: 180px;
+  height: 220px;
+  background-color: #1a1a1a;
+  border-radius: 12px;
+  box-shadow: 0 0 40px rgba(255, 75, 43, 0.6);
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  opacity: 1;
+  transition: transform 0.6s ease-out, opacity 0.6s ease-out;
+}
 
+.launch-overlay img {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.launch-overlay .game-card-title {
+  font-weight: bold;
+  color: #fff;
+  font-size: 1rem;
+  margin-top: 8px;
+}
+
+.launch-overlay.animate {
+  transform: translate(-50%, -50%) scale(8);
+  opacity: 0;
     header {
       background: linear-gradient(270deg, #ff4b2b, #1e90ff, #8e44ad, #00bcd4, #ff9800, #ff4b2b);
       background-size: 1200% 1200%;
@@ -293,14 +329,36 @@
       });
     });
 
-    // App-style launch animation with redirect
+    // Fullscreen launch animation with redirect
     gameCards.forEach(card => {
       card.addEventListener('click', () => {
-        card.classList.add('launching');
         const url = card.getAttribute('data-url');
+        const title = card.getAttribute('data-title');
+        const imgSrc = card.querySelector('img').src;
+
+        const overlay = document.createElement('div');
+        overlay.className = 'launch-overlay';
+
+        const img = document.createElement('img');
+        img.src = imgSrc;
+
+        const label = document.createElement('div');
+        label.className = 'game-card-title';
+        label.textContent = title;
+
+        overlay.appendChild(img);
+        overlay.appendChild(label);
+        document.body.appendChild(overlay);
+
+        // Trigger animation
+        setTimeout(() => {
+          overlay.classList.add('animate');
+        }, 50);
+
+        // Redirect after animation
         setTimeout(() => {
           window.location.href = url;
-        }, 600); // Match animation duration
+        }, 700);
       });
     });
 
