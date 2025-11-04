@@ -100,19 +100,7 @@
 .launch-overlay.animate {
   transform: translate(-50%, -50%) scale(8);
   opacity: 0;
-    header {
-      background: linear-gradient(270deg, #ff4b2b, #1e90ff, #8e44ad, #00bcd4, #ff9800, #ff4b2b);
-      background-size: 1200% 1200%;
-      animation: gradientShift 30s ease infinite;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 24px 32px;
-      border-bottom: 2px solid #333;
-      gap: 32px;
-      flex-wrap: wrap;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-    }
+}
 
     .logo {
       font-size: 3rem;
@@ -350,7 +338,10 @@
 
         overlay.appendChild(img);
         overlay.appendChild(label);
-        document.getElementById('overlayContainer').appendChild(overlay);
+
+        const container = document.getElementById('overlayContainer');
+        container.innerHTML = ''; // Clear previous overlays
+        container.appendChild(overlay);
 
         setTimeout(() => {
           overlay.classList.add('animate');
@@ -405,5 +396,7 @@
     };
   });
 </script>
+  <div id="overlayContainer" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999;"></div>
+  
 </body>
 </html>
