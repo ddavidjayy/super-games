@@ -109,11 +109,12 @@
       text-shadow: 1px 1px 2px rgba(0,0,0,0.4);
     }
 
-    .search-container {
-      flex-grow: 1;
-      max-width: 500px;
-      position: relative;
-    }
+.search-container {
+  width: 100%;
+  max-width: 500px;
+  display: flex;
+  justify-content: center;
+}
 
     .search-container input {
       width: 100%;
@@ -133,19 +134,19 @@
       box-shadow: 0 0 0 3px #e50914;
     }
 
-    .games-btn {
-      background: linear-gradient(135deg, #ff416c, #ff4b2b);
-      color: #fff;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 30px;
-      cursor: pointer;
-      font-weight: bold;
-      font-size: 1rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      transition: transform 0.2s ease;
-      margin-left: 16px;
-    }
+.games-btn {
+  background: linear-gradient(135deg, #ff416c, #ff4b2b);
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  transition: transform 0.2s ease;
+  margin-left: 16px;
+}
 
     .games-btn:hover {
       transform: scale(1.05);
@@ -245,11 +246,12 @@
     <div class="search-container">
       <input type="text" id="searchInput" placeholder="Search games..." />
     </div>
-    <a href="index.html">
-      <button class="games-btn">Home</button>
-    </a>
+<div style="display: flex; justify-content: center;">
+  <a href="index.html">
+    <button class="games-btn">Home</button>
+  </a>
+</div>|
   </header>
-
 <div class="games-grid" id="gamesGrid">
   <div class="game-card" data-title="Brawl Stars" data-url="brawlstars.html">
     <img src="https://staticg.sportskeeda.com/editor/2023/12/8397f-17024614684468-1920.jpg" alt="Brawl Stars">
