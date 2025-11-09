@@ -257,6 +257,14 @@
 </head>
 <body>
   <header>
+      <div id="likedGamesSection" style="display: none;">
+    <h2>Your Liked Games</h2>
+    <div id="likedGamesList"></div>
+    <button onclick="clearLikedGames()" class="games-btn" style="margin: 20px auto; display: block;">
+      Clear Liked Games🗑️
+    </button>
+  </div>
+    
     <div class="logo">SuperGames</div>
     <div class="search-container">
       <input type="text" id="searchInput" placeholder="Search games..." />
