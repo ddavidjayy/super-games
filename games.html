@@ -257,14 +257,7 @@
 </head>
 <body>
   <header>
-      <div id="likedGamesSection" style="display: none;">
-    <h2>Your Liked Games</h2>
-    <div id="likedGamesList"></div>
-    <button onclick="clearLikedGames()" class="games-btn" style="margin: 20px auto; display: block;">
-      Clear Liked Games🗑️
-    </button>
-  </div>
-    
+   
     <div class="logo">SuperGames</div>
     <div class="search-container">
       <input type="text" id="searchInput" placeholder="Search games..." />
@@ -274,6 +267,11 @@
     </a>
   </header>
 <div class="games-grid" id="gamesGrid">
+      <div id="likedGamesSection" style="display:none;">
+      <h2>❤️ Your Liked Games</h2>
+      <button class="games-btn" onclick="clearLikedGames()">🗑️ Clear Liked Games</button>
+      <div id="likedGamesList"></div>
+    </div>
   <div class="game-card" data-title="Brawl Stars" data-url="brawlstars.html">
     <img src="https://staticg.sportskeeda.com/editor/2023/12/8397f-17024614684468-1920.jpg" alt="Brawl Stars">
     <div class="game-card-title">Brawl Stars</div>
