@@ -267,7 +267,7 @@
   width: 100px;
   height: 100px;
   background: #1a1a1a;
-  border-radius: 50%;
+  border-radius: 12px;
   box-shadow: 0 0 20px #ff4b2b;
   z-index: 9999;
   display: flex;
@@ -314,8 +314,8 @@
 
 @keyframes pulseSpike {
   0%, 100% { transform: scaleY(1); opacity: 0.6; }
-  50% { transform: scaleY(2); opacity: 1; 
-  
+  50% { transform: scaleY(2); opacity: 1; }
+}
   </style>
 </head>
 <body>
@@ -523,10 +523,15 @@
     for (let i = 0; i < 12; i++) {
       const spike = document.createElement('div');
       spike.className = 'spike';
-      const angle = (i * 30);
-      spike.style.transform = `rotate(${angle}deg) translateY(-50px)`;
+      const angle = i * 30;
+      spike.style.transform = `rotate(${angle}deg) translate(0, -60px)`;
+      spike.style.transformOrigin = 'center center';
       widget.appendChild(spike);
     }
+  }
+
+  function removeSpikes() {
+    document.querySelectorAll('.spike').forEach(spike => spike.remove());
   }
 
   player.addEventListener('play', () => {
@@ -536,13 +541,12 @@
 
   player.addEventListener('pause', () => {
     cdButton.classList.remove('spinning');
-    document.querySelectorAll('.spike').forEach(spike => spike.remove());
+    removeSpikes();
   });
 
   player.addEventListener('ended', () => {
     cdButton.classList.remove('spinning');
-    document.querySelectorAll('.spike').forEach(spike => spike.remove());
+    removeSpikes();
   });
-</script>
 </body>
 </html>
