@@ -259,6 +259,47 @@
 .clear-liked-btn {
   margin-top: 12px;
 }
+    #musicWidget {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #1a1a1a;
+  border: 2px solid #00bcd4;
+  border-radius: 12px;
+  padding: 12px;
+  box-shadow: 0 0 15px #00bcd4;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  width: 240px;
+}
+
+#musicWidget input[type="file"],
+#musicWidget input[type="text"] {
+  width: 100%;
+  padding: 6px;
+  background: #2a2a2a;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+#musicWidget button {
+  background: linear-gradient(135deg, #00bcd4, #1e90ff);
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 0 8px #00bcd4;
+}
+
+#musicWidget audio {
+  
   </style>
 </head>
 <body>
@@ -445,6 +486,31 @@
   });
 </script>
   <div id="overlayContainer" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999;"></div>
-  
+   <div id="musicWidget">
+    <input type="file" id="musicUpload" accept="audio/*" title="Upload music">
+    <input type="text" id="musicLink" placeholder="Paste audio link">
+    <button onclick="playMusic()">▶</button>
+    <audio id="musicPlayer" controls></audio>
+  </div>
+
+  <script>
+    function playMusic() {
+      const fileInput = document.getElementById('musicUpload');
+      const linkInput = document.getElementById('musicLink');
+      const player = document.getElementById('musicPlayer');
+
+      if (fileInput.files.length > 0) {
+        const file = fileInput.files[0];
+        player.src = URL.createObjectURL(file);
+      } else if (linkInput.value.trim() !== '') {
+        player.src = linkInput.value.trim();
+      } else {
+        alert('Upload a file or paste a link.');
+        return;
+      }
+
+      player.play();
+    }
+  </script>
 </body>
 </html>
